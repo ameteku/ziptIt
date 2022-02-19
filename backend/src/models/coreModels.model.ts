@@ -20,6 +20,8 @@ type Ratings = {
 };
 
 type Link = Base & {
+    classId: string,
+    topicId: string,
     actualLink : string,
     ratingObjectId : string
 };
