@@ -1,13 +1,13 @@
 import { initializeApp, applicationDefault, cert } from 'firebase-admin/app';
 import { getFirestore, Timestamp, FieldValue } from 'firebase-admin/firestore';
-import type dbConstants from 'src/constants/dbConstants';
+import type dbConstants from '../constants/dbConstants';
+import type { User } from "../models/user.model";
 
-
-class dbConnector {
+export default class DBConnector {
     db: FirebaseFirestore.Firestore;
 
     constructor() {
-        const serviceAccount = require('./path/to/serviceAccountKey.json');
+        const serviceAccount = require('../../../backend/zipit-23932-a77e956dd224.json');
 
         initializeApp({
             credential: cert(serviceAccount)
@@ -22,10 +22,24 @@ class dbConnector {
                     }
                 ).then( ()=> {
                     return true;
-                });     
+                });
     }
 
-    
+    async removeDocument(params : { docId :string,  collectionPath: dbConstants }) : Promise<boolean> {
+        return await this.db.collection(params.collectionPath).doc(params.docId).delete().then(result => true).catch(error => {
+            return false;
+        });
+    }
+
+    // todo : add check for key against objects eg. Class, user
+    async updateDoc(params: {json : {} ,docId: string, collectionPath: dbConstants}) : Promise<boolean> {
+        return await this.db.collection(params.collectionPath).doc(params.docId).update(params.json).then(result => {
+            return true;
+        }).catch(error => {
+            console.log("Update error occured" + error);
+            return false;
+        })
+    }
 }
 
 

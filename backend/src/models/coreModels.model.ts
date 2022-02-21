@@ -6,17 +6,17 @@ type Base= {
 
 
 type Class =  Base & {
-    relatedTopicIds : Array<string>
+    relatedTopicIds : string[]
 };
 
 type Topic  = Base & {
-    linkIds : Array<string>
+    linkIds : string[]
 };
 
 type Ratings = {
     linkId :string,
     ratingId : string,
-    ratings : Array<number>
+    ratings : number[]
 };
 
 type Link = Base & {

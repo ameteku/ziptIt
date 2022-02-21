@@ -1,6 +1,6 @@
 
-type User  = {
-    id: string,
+export type User  = {
+    id: string | null,
     name: string,
-    accessLevel: Array<string>,
+    accessLevel: (string | null)[],
 }
