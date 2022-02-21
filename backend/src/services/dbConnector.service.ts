@@ -20,7 +20,7 @@ export default class DBConnector {
                 catch (()=> {
                        return false;
                     }
-                ).then( ()=> {
+                ).then(()=> {
                     return true;
                 });
     }
