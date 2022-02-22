@@ -19,6 +19,8 @@ export default class UserService {
             return false;
         }
 
+        this.db.getMatchingDocuments()
+
     }
 
     //removes user key:value from map if available 
