@@ -4,7 +4,7 @@ import type dbConstants from '../constants/dbConstants';
 import type { User } from "../models/user.model";
 
 export default class DBConnector {
-    db: FirebaseFirestore.Firestore;
+    private db: FirebaseFirestore.Firestore;
 
     constructor() {
         const serviceAccount = require('../../../backend/zipit-23932-a77e956dd224.json');
@@ -15,6 +15,10 @@ export default class DBConnector {
         this.db = getFirestore();
     }
 
+    get database():FirebaseFirestore.Firestore  {
+        return this.db; 
+    }
+    
    async addDocument(params : { doc :Class | User | Topic | Link, collectionPath: dbConstants }) : Promise<boolean> {
         return await this.db.collection(params.collectionPath).add(params.doc).
                 catch (()=> {
@@ -25,29 +29,11 @@ export default class DBConnector {
                 });
     }
 
-    async getMatchingDocuments(json : Map<string, string>, collectionPath: dbConstants): Promise<User[]> {
-        const keys = Object.keys(json);
-        if( keys.length == 0) return [];
-       
-        const values = Object.values(json);
-
-        return this.db.collection(collectionPath).where(keys[0], "==", values[0]).get().
+    async getCollection(collectionPath: dbConstants): Promise<Object> {
+        return this.db.collection(collectionPath).get().
         then(result => {
-            if( result.docs.length == 0) return null;
-
-            return result.docs.map(item => {
-
-                const data  = item.data();
-                const tempUser =  {
-                    id: item.id,
-                    name: data["name"] as string,
-                    username: data["username"] as string,
-                    email: data["email"] as string,
-                    accessLevel : data["accessLevel"] as (Array<string> | null)
-                };
-
-                return tempUser;
-            });
+            if(result.docs.length == 0) return null;
+            return result.docs.map(item => item.data());
         });
     }
 
