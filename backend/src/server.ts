@@ -37,6 +37,29 @@ server.post('/login', (req, res)=> {
 
 });
 
+server.post('/register', (req, res)=> {
+    console.log( typeof req.body);
+
+    if(checkKeys(["username", "password", "email"], Object.keys(req.body))) {
+
+        userRoutes.registerUser(req.body).then(result => {
+            res.send(result);
+        }).
+        catch(error => {
+            console.log("Error registering in:", error);
+           if(error === "EmptyFieldError") {
+               res.sendStatus(400);
+           }
+           else {
+               res.sendStatus(500);
+           }
+        });
+    }
+
+});
+
+
+
 server.get('/test', (req, res)=> {
     res.send("Hiiii another success my boy");
 });
