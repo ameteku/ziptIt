@@ -16,9 +16,9 @@ export default class DBConnector {
     }
 
     get database():FirebaseFirestore.Firestore  {
-        return this.db; 
+        return this.db;
     }
-    
+
    async addDocument(params : { doc :Class | User | Topic | Link, collectionPath: dbConstants }) : Promise<boolean> {
         return await this.db.collection(params.collectionPath).add(params.doc).
                 catch (()=> {
@@ -29,16 +29,17 @@ export default class DBConnector {
                 });
     }
 
-    async getCollection(collectionPath: dbConstants): Promise<Object> {
+    async getCollection(collectionPath: dbConstants): Promise<object> {
         return this.db.collection(collectionPath).get().
         then(result => {
-            if(result.docs.length == 0) return null;
+            if(result.docs.length === 0) return null;
             return result.docs.map(item => item.data());
         });
     }
 
     async removeDocument(params : { docId :string,  collectionPath: dbConstants }) : Promise<boolean> {
         return await this.db.collection(params.collectionPath).doc(params.docId).delete().then(result => true).catch(error => {
+            console.log("Error in removing doc", error);
             return false;
         });
     }
