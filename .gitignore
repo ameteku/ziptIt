@@ -42,6 +42,10 @@ node_modules/
 jspm_packages/
 backend/node_modules
 
+
+#secrets
+backend/zipit-23932-a77e956dd224.json
+
 # TypeScript v1 declaration files
 typings/
 
