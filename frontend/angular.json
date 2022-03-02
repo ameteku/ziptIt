@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "Zip-It": {
+    "Search-Module": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
