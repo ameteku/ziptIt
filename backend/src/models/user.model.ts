@@ -1,4 +1,3 @@
-
 type accessLevels = "Regular" | "Admin";
 export type User  = {
     id: string | null,

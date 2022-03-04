@@ -1,6 +1,6 @@
 type Base= {
     title : string,
-    id: string,
+    id?: string,
     description : string
 };
 
@@ -10,12 +10,11 @@ type Class =  Base & {
 };
 
 type Topic  = Base & {
-    linkIds : string[]
+    classId: string,
+    linkIds: string[]
 };
 
 type Ratings = {
-    linkId :string,
-    ratingId : string,
     ratings : number[]
 };
 
@@ -23,5 +22,5 @@ type Link = Base & {
     classId: string,
     topicId: string,
     actualLink : string,
-    ratingObjectId : string
+    ratings : Ratings
 };
