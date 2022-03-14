@@ -1,6 +1,7 @@
 import { User } from "../models/user.model";
 import DBConnector from "./dbConnector.service";
 import type dbConstants from "../constants/dbConstants";
+
 export default class UserService {
     db: DBConnector;
     private loggedInUsers: Map<string, string>;

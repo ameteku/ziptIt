@@ -15,29 +15,36 @@ export default class DBConnector {
         this.db = getFirestore();
     }
 
-    get database():FirebaseFirestore.Firestore  {
+    get database(): FirebaseFirestore.Firestore {
         return this.db;
     }
 
-   async addDocument(params : { doc :Class | User | Topic | Link, collectionPath: dbConstants }) : Promise<boolean> {
+    async addDocument(params: { doc: Class | User | Topic | Link, collectionPath: dbConstants }): Promise<boolean> {
         return await this.db.collection(params.collectionPath).add(params.doc).
-                catch (()=> {
-                       return false;
-                    }
-                ).then(()=> {
-                    return true;
+            catch(() => {
+                return false;
+            }).then(() => {
+                return true;
+            });
+    }
+
+    async getCollection(params: {collectionPath: dbConstants, filter?: {filterKey: string, value: string}}): Promise<object> {
+        if(params.filter === null) {
+            return this.db.collection(params.collectionPath).get().
+                then(result => {
+                    if (result.docs.length === 0) return null;
+                    return result.docs.map(item => item.data());
+                });
+        }
+
+        return this.db.collection(params.collectionPath).where(params.filter.filterKey, "==", params.filter.value).get().
+                then(result => {
+                    if (result.docs.length === 0) return null;
+                    return result.docs.map(item => item.data());
                 });
     }
 
-    async getCollection(collectionPath: dbConstants): Promise<object> {
-        return this.db.collection(collectionPath).get().
-        then(result => {
-            if(result.docs.length === 0) return null;
-            return result.docs.map(item => item.data());
-        });
-    }
-
-    async removeDocument(params : { docId :string,  collectionPath: dbConstants }) : Promise<boolean> {
+    async removeDocument(params: { docId: string, collectionPath: dbConstants }): Promise<boolean> {
         return await this.db.collection(params.collectionPath).doc(params.docId).delete().then(result => true).catch(error => {
             console.log("Error in removing doc", error);
             return false;
@@ -45,13 +52,13 @@ export default class DBConnector {
     }
 
     // todo : add check for key against objects eg. Class, user
-    async updateDoc(params: {json : {} ,docId: string, collectionPath: dbConstants}) : Promise<boolean> {
+    async updateDoc(params: { json: {}, docId: string, collectionPath: dbConstants }): Promise<boolean> {
         return await this.db.collection(params.collectionPath).doc(params.docId).update(params.json).then(result => {
             return true;
         }).catch(error => {
             console.log("Update error occured" + error);
             return false;
-        })
+        });
     }
 }
 
