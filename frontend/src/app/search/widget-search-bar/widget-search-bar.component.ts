@@ -55,9 +55,8 @@ export class WidgetSearchBarComponent implements OnInit {
       id: null,
       name: null,
       description: null,
-      price: null,
-      imageUrl: null,
-      quantity: null,
+      department: null,
+      classNum: null,
     });
 
     this.searchService.isOptionsEmpty$ = this.searchService.options$.pipe(

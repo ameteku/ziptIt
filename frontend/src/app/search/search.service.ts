@@ -17,9 +17,8 @@ export class SearchService {
     id: null,
     name: null,
     description: null,
-    price: null,
-    imageUrl: null,
-    quantity: null,
+    department: null,
+    classNum: null,
   });
 
   private selectedOptions = new BehaviorSubject<SearchOption[]>([]);
@@ -33,7 +32,7 @@ export class SearchService {
 
   search(q: string): Observable<SearchOption[]> {
     return this.http.get<SearchOption[]>(
-      this.SERVER_URL + 'products?name_like=' + q
+      this.SERVER_URL + 'Classes?name_like=' + q
     );
   }
 
