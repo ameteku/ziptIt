@@ -32,7 +32,7 @@ export class SearchService {
 
   search(q: string): Observable<SearchOption[]> {
     return this.http.get<SearchOption[]>(
-      this.SERVER_URL + 'Classes?name_like=' + q
+      this.SERVER_URL + 'Classes?department_like=' + q
     );
   }
 
