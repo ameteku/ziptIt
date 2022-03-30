@@ -33,7 +33,17 @@ export default class DataService {
             throw new Error("EmptyFieldError");
         }
 
-        //    if((await this.db.database.doc(params.classId).get()).data != null )
+        // check if class being referenced exists
+        if (!this.db.docWithIdExists("class/" + params.classId)) {
+            console.log("class does not exist");
+            return false;
+        }
+
+        // check if topic title is a duplicate
+        if ((await this.db.database.collection("topics").where("title", "==", params.title).limit(1).get()).docs[0]?.exists) {
+            console.log(`topic: ${params.title} is a duplicate`)
+            return false;
+        }
 
         const newTopic: Topic = {
             title: params.title,
@@ -42,23 +52,28 @@ export default class DataService {
             linkIds: []
         };
 
-        // todo: add check for possible duplicates
-
         return await this.db.addDocument({
             doc: newTopic,
             collectionPath: "topics",
         });
+
     }
 
     addLink = async (params: { title: string, description: string, topicId: string, link: string, classId: string }): Promise<boolean> => {
-        if (params.title.length === 0 || params.description.length === 0 || params.topicId.length === 0 || params.link) {
-            throw new Error("EmptyFieldError");
+        if (params.title.length === 0 || params.description.length === 0 || params.topicId.length === 0 || !params.link) {
+            console.log("empty field, please check");
+            return false;
         }
 
         // first create rating doc
         const newRatings: Ratings = {
             ratings: []
         };
+
+        if(!this.db.docWithIdExists("topic/" + params.topicId)) {
+            console.log("topic doc being referenced does not exist");
+            return false;
+        }
 
         // then create link doc
         const newLink: Link = {
@@ -102,43 +117,42 @@ export default class DataService {
         collectionPath: "class"
     });
 
-    getClasses = async (range?: { bottomLimit: number, upperLimit: number }): Promise<object> =>
-    (await this.db.database.collection("class").get()).docs.map(record => {
-        return {id: record.id,  ...record.data()}
+    getClasses = async (range?: { bottomLimit: number, upperLimit: number }): Promise<object> => this.db.getCollection({ collectionPath: "class" });
+
+    getClassTopics = async (classId: string): Promise<object> => this.db.getCollection({
+        collectionPath: "topics",
+        filter: {
+            filterKey: "classId",
+            value: classId
+        }
     });
 
-getClassTopics = async (classId: string): Promise<object> => (await this.db.database.collection("topics").where("classId", "==", classId).get()).docs.map(doc => {
-    return {id: doc.id, ...doc.data()}
-});
+    getAllTopics = async (): Promise<object> => this.db.getCollection({ collectionPath: "topics" });
 
-getAllTopics = async (): Promise<object> => (await this.db.database.collection("topics").get()).docs.map(doc => {
-    return {id: doc.id, ...doc.data()}
-});
+    getLinks = (topicId: string): Promise<object> => this.db.getCollection({
+        collectionPath: "links",
+        filter: {
+            filterKey: "topicId",
+            value: topicId
+        }
+    });
 
-getLinks = (topicId: string): Promise<object> => this.db.getCollection({
-    collectionPath: "links",
-    filter: {
-        filterKey: "topicId",
-        value: topicId
-    }
-});
-
-// linkId, 0<=ratinng<=5
-addRating = async (linkId: string, newRating: number): Promise<boolean> => {
-    if (newRating >= 0 && newRating <= 5) {
-        return false;
-    }
-
-    return this.db.database.collection("links").doc(linkId).get()
-        .then(result => {
-            const link: Link = result.data() as Link;
-            link.ratings.ratings.push(newRating);
-            return this.updateLink(link, linkId);
-        })
-        .catch(error => {
-            console.log("Error getting link", error);
+    // linkId, 0<=ratinng<=5
+    addRating = async (linkId: string, newRating: number): Promise<boolean> => {
+        if (newRating >= 0 && newRating <= 5) {
             return false;
-        })
+        }
 
-}
+        return this.db.database.collection("links").doc(linkId).get()
+            .then(result => {
+                const link: Link = result.data() as Link;
+                link.ratings.ratings.push(newRating);
+                return this.updateLink(link, linkId);
+            })
+            .catch(error => {
+                console.log("Error getting link", error);
+                return false;
+            })
+
+    }
 }

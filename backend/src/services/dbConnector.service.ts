@@ -33,14 +33,14 @@ export default class DBConnector {
             return this.db.collection(params.collectionPath).get().
                 then(result => {
                     if (result.docs.length === 0) return null;
-                    return result.docs.map(item => item.data());
+                    return result.docs.map(item => { return {"id": item.id, ...item.data()}});
                 });
         }
 
         return this.db.collection(params.collectionPath).where(params.filter.filterKey, "==", params.filter.value).get().
                 then(result => {
                     if (result.docs.length === 0) return null;
-                    return result.docs.map(item => item.data());
+                    return result.docs.map(item => { return {"id": item.id, ...item.data()}});
                 });
     }
 
@@ -59,6 +59,11 @@ export default class DBConnector {
             console.log("Update error occured" + error);
             return false;
         });
+    }
+
+    /// psth: must include collection + doc id
+    async docWithIdExists(path: string): Promise<boolean> {
+        return await (await this.db.doc(path).get()).exists;
     }
 }
 

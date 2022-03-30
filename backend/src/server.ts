@@ -70,71 +70,97 @@ server.post('/add/:objectType', async (req, res) => {
         return;
     }
 
-    let isSuccess: boolean;
+    let isSuccess = false;
     switch (objectType) {
         case 'class':
             if (!checkKeys(['title', 'description'], Object.keys(body))) {
-                sendErrorMessage(res, 400, 'missing data');
-                return;
+                break;
             }
 
             isSuccess = await dataRoutes.addClass(body.title, body.description);
             break;
+
         case 'topic':
             if (!checkKeys(['title', 'description', 'classId'], Object.keys(body))) {
-                sendErrorMessage(res, 400, 'missing data');
-                return;
+                break;
             }
 
             isSuccess = await dataRoutes.addTopic(body.title, body.description, body.classId);
             break;
+
+        case 'link':
+            console.log("in link", body);
+            if(!checkKeys(['title', 'description', 'classId', 'topicId', 'link'], Object.keys(body))) {
+                break;
+            }
+
+            isSuccess = await dataRoutes.addLink(body.title, body.description, body.classId, body.topicId, body.link);
+            break;
         default:
             sendErrorMessage(res, 400, "Missing endpoint parameter, use topic or class");
+            return;
     }
 
     if (isSuccess) {
         res.send('Success')
     }
     else {
-        sendErrorMessage(res, 400, 'Failed to add class');
+        sendErrorMessage(res, 500, `Failed to add ${objectType}, check your parameters.`);
     }
 });
 
-server.get('/:objectType/all/:classid?', async (req, res) => {
+server.get('/:objectType/all/:childId', async (req, res) => {
     const objectType = req.params.objectType;
 
-    if(!objectType) {
+    if (!objectType) {
         sendErrorMessage(res, 404, "missing endpoint params, add topic or class");
         return;
     }
 
-    switch(objectType) {
+    switch (objectType) {
         case "class":
-        dataRoutes.getAllClasses().then(result => {
-            res.send(result);
-        }).catch(error => {
-            sendErrorMessage(res, 400, "An error occured: " + error);
-        });
-        return;
+            dataRoutes.getAllClasses().then(result => {
+                res.send(result);
+            }).catch(error => {
+                sendErrorMessage(res, 500, "An error occured getting classes: " + error);
+            });
+            return;
 
         case "topic":
-            const classId = req.params.classid;
-            if(!classId) {
+            const classId = req.params.childId;
+            if (!classId) {
                 dataRoutes.getTopics().then(result => {
                     res.send(result);
                 }).catch(error => {
-                    sendErrorMessage(res, 400, "An error occured: " + error);
+                    sendErrorMessage(res, 500, "An error occured getting all topics: " + error);
                 });
             } else {
                 dataRoutes.getTopics(classId).then(result => {
                     res.send(result);
                 }).catch(error => {
-                    sendErrorMessage(res, 400, "An error occured: " + error);
+                    sendErrorMessage(res, 500, "An error occured getting class topics: " + error);
                 });
             }
-    }
+            return;
 
+        case "link":
+            const topicId = req.params.childId;
+            if (!topicId) {
+                sendErrorMessage(res, 401, "can't perform this action");
+                return;
+            }
+
+            dataRoutes.getTopicLinks(topicId).then(result => {
+                res.send(result)
+            }).catch(error => {
+                sendErrorMessage(res, 500, "An error occured getting topic links has occurred: " + error);
+            })
+
+    }
 });
+
+
+
 
 
 
