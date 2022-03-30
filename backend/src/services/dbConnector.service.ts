@@ -29,7 +29,7 @@ export default class DBConnector {
     }
 
     async getCollection(params: {collectionPath: dbConstants, filter?: {filterKey: string, value: string}}): Promise<object> {
-        if(params.filter === null) {
+        if(!params.filter) {
             return this.db.collection(params.collectionPath).get().
                 then(result => {
                     if (result.docs.length === 0) return null;

@@ -10,8 +10,8 @@ export default class DataService {
     }
 
     addClass = async (params: { title: string, description: string }): Promise<boolean> => {
-        if (params.title.length === 0 || params.description.length === 0) {
-            throw "EmptyFieldError";
+        if (params.title?.length === 0 || params.description?.length === 0) {
+            throw new Error("EmptyFieldError");
         }
 
         const newClass: Class = {
@@ -20,7 +20,7 @@ export default class DataService {
             relatedTopicIds: []
         };
 
-        //todo: add check for possible duplicates
+        // todo: add check for possible duplicates
 
         return await this.db.addDocument({
             doc: newClass,
@@ -30,8 +30,10 @@ export default class DataService {
 
     addTopic = async (params: { title: string, description: string, classId: string }): Promise<boolean> => {
         if (params.title.length === 0 || params.description.length === 0) {
-            throw "EmptyFieldError";
+            throw new Error("EmptyFieldError");
         }
+
+        //    if((await this.db.database.doc(params.classId).get()).data != null )
 
         const newTopic: Topic = {
             title: params.title,
@@ -40,7 +42,7 @@ export default class DataService {
             linkIds: []
         };
 
-        //todo: add check for possible duplicates
+        // todo: add check for possible duplicates
 
         return await this.db.addDocument({
             doc: newTopic,
@@ -50,15 +52,15 @@ export default class DataService {
 
     addLink = async (params: { title: string, description: string, topicId: string, link: string, classId: string }): Promise<boolean> => {
         if (params.title.length === 0 || params.description.length === 0 || params.topicId.length === 0 || params.link) {
-            throw "EmptyFieldError";
+            throw new Error("EmptyFieldError");
         }
 
-        //first create rating doc 
+        // first create rating doc
         const newRatings: Ratings = {
             ratings: []
         };
 
-        //then create link doc
+        // then create link doc
         const newLink: Link = {
             title: params.title,
             description: params.description,
@@ -68,7 +70,7 @@ export default class DataService {
             ratings: newRatings
         };
 
-        //todo: add check for possible duplicates
+        // todo: add check for possible duplicates
 
         return await this.db.addDocument({
             doc: newLink,
@@ -100,32 +102,35 @@ export default class DataService {
         collectionPath: "class"
     });
 
-    getClasses = (): Promise<object> => this.db.getCollection({ collectionPath: "class" });
-
-    getTopics = (classId: string): Promise<object> => this.db.getCollection({
-        collectionPath: "topics",
-        filter: {
-            filterKey: "classId",
-            value: classId
-        }
+    getClasses = async (range?: { bottomLimit: number, upperLimit: number }): Promise<object> =>
+    (await this.db.database.collection("class").get()).docs.map(record => {
+        return {id: record.id,  ...record.data()}
     });
 
-    getLinks = (topicId: string): Promise<object> => this.db.getCollection({
-        collectionPath: "links",
-        filter: {
-            filterKey: "topicId",
-            value: topicId
-        }
-    });
+getClassTopics = async (classId: string): Promise<object> => (await this.db.database.collection("topics").where("classId", "==", classId).get()).docs.map(doc => {
+    return {id: doc.id, ...doc.data()}
+});
 
-    //linkId, 0<=ratinng<=5
-    addRating = async (linkId: string,newRating: number ): Promise<boolean> => {
-        if(newRating >=0 && newRating <= 5) {
-            return false;
-        }
+getAllTopics = async (): Promise<object> => (await this.db.database.collection("topics").get()).docs.map(doc => {
+    return {id: doc.id, ...doc.data()}
+});
 
-        return this.db.database.collection("links").doc(linkId).get()
-        .then(result=> {
+getLinks = (topicId: string): Promise<object> => this.db.getCollection({
+    collectionPath: "links",
+    filter: {
+        filterKey: "topicId",
+        value: topicId
+    }
+});
+
+// linkId, 0<=ratinng<=5
+addRating = async (linkId: string, newRating: number): Promise<boolean> => {
+    if (newRating >= 0 && newRating <= 5) {
+        return false;
+    }
+
+    return this.db.database.collection("links").doc(linkId).get()
+        .then(result => {
             const link: Link = result.data() as Link;
             link.ratings.ratings.push(newRating);
             return this.updateLink(link, linkId);
@@ -135,5 +140,5 @@ export default class DataService {
             return false;
         })
 
-    }
+}
 }

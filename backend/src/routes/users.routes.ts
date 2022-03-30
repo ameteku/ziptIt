@@ -31,10 +31,10 @@ export default class UserRoutes {
             if (value.length === 0) {
                 throw new Error(`EmptyFieldError`);
             }
-            
+
         }
 
-        if(this.isUakronEmail(requestBody.email)) {
+        if(!this.isUakronEmail(requestBody.email)) {
             throw new Error(`InvalidEmailAddress`);
         }
         const newUser: User = {
@@ -59,16 +59,16 @@ export default class UserRoutes {
 
     }
 
-    //ensures email is a valid uakron email and then grabs the userId from email
-    isUakronEmail(email: string) {
+    // ensures email is a valid uakron email and then grabs the userId from email
+    private isUakronEmail(email: string) {
         if (email != null) {
             return email.includes("uakron.edu");
         }
         else return false;
     }
 
-    getIdFromEmail(email: string) {
-        var id;
+    private getIdFromEmail(email: string) {
+        let id;
         if (this.isUakronEmail(email)) {
             id = email.substring(0, email.search('@'));
         }
