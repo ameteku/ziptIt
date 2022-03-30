@@ -100,11 +100,12 @@ server.post('/add/:objectType', async (req, res) => {
     }
 });
 
-server.get('/:objectType/all/:classid?', (req, res) => {
+server.get('/:objectType/all/:classid?', async (req, res) => {
     const objectType = req.params.objectType;
 
     if(!objectType) {
         sendErrorMessage(res, 404, "missing endpoint params, add topic or class");
+        return;
     }
 
     switch(objectType) {
@@ -114,6 +115,7 @@ server.get('/:objectType/all/:classid?', (req, res) => {
         }).catch(error => {
             sendErrorMessage(res, 400, "An error occured: " + error);
         });
+        return;
 
         case "topic":
             const classId = req.params.classid;
@@ -130,7 +132,6 @@ server.get('/:objectType/all/:classid?', (req, res) => {
                     sendErrorMessage(res, 400, "An error occured: " + error);
                 });
             }
-
     }
 
 });
