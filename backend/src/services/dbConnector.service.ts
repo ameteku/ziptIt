@@ -29,18 +29,18 @@ export default class DBConnector {
     }
 
     async getCollection(params: {collectionPath: dbConstants, filter?: {filterKey: string, value: string}}): Promise<object> {
-        if(params.filter === null) {
+        if(!params.filter) {
             return this.db.collection(params.collectionPath).get().
                 then(result => {
                     if (result.docs.length === 0) return null;
-                    return result.docs.map(item => item.data());
+                    return result.docs.map(item => { return {"id": item.id, ...item.data()}});
                 });
         }
 
         return this.db.collection(params.collectionPath).where(params.filter.filterKey, "==", params.filter.value).get().
                 then(result => {
                     if (result.docs.length === 0) return null;
-                    return result.docs.map(item => item.data());
+                    return result.docs.map(item => { return {"id": item.id, ...item.data()}});
                 });
     }
 
@@ -59,6 +59,11 @@ export default class DBConnector {
             console.log("Update error occured" + error);
             return false;
         });
+    }
+
+    /// psth: must include collection + doc id
+    async docWithIdExists(path: string): Promise<boolean> {
+        return await (await this.db.doc(path).get()).exists;
     }
 }
 
