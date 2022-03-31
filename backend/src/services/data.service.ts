@@ -89,7 +89,7 @@ export default class DataService {
 
         return await this.db.addDocument({
             doc: newLink,
-            collectionPath: "topics",
+            collectionPath: "links",
         });
     }
 
@@ -139,7 +139,7 @@ export default class DataService {
 
     // linkId, 0<=ratinng<=5
     addRating = async (linkId: string, newRating: number): Promise<boolean> => {
-        if (newRating >= 0 && newRating <= 5) {
+        if (newRating < 0 || newRating > 5) {
             return false;
         }
 
@@ -153,6 +153,5 @@ export default class DataService {
                 console.log("Error getting link", error);
                 return false;
             })
-
     }
 }

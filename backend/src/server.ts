@@ -109,7 +109,20 @@ server.post('/add/:objectType', async (req, res) => {
     }
 });
 
-server.get('/:objectType/all/:childId', async (req, res) => {
+// send a rating value out of 5, linkid, user account
+server.post('/add-rating', async (req, res)=> {
+    const body = req.body;
+    if(!body || !checkKeys(["rating", "linkId", "username"], Object.keys(body)) || !userRoutes.userService.isLoggedInUser(body.username)) {
+        sendErrorMessage(res, 401, "Bad request");
+        return;
+    }
+
+    const isSuccess = await dataRoutes.addRating(body.rating, body.linkId);
+    isSuccess ? res.send("success") : sendErrorMessage(res, 401, "Failed to add rating");
+
+});
+
+server.get('/:objectType/all/:parentId', async (req, res) => {
     const objectType = req.params.objectType;
 
     if (!objectType) {
@@ -127,7 +140,7 @@ server.get('/:objectType/all/:childId', async (req, res) => {
             return;
 
         case "topic":
-            const classId = req.params.childId;
+            const classId = req.params.parentId
             if (!classId) {
                 dataRoutes.getTopics().then(result => {
                     res.send(result);
@@ -144,9 +157,9 @@ server.get('/:objectType/all/:childId', async (req, res) => {
             return;
 
         case "link":
-            const topicId = req.params.childId;
+            const topicId = req.params.parentId;
             if (!topicId) {
-                sendErrorMessage(res, 401, "can't perform this action");
+                sendErrorMessage(res, 401, "can't perform this action, add topicId to endpoint");
                 return;
             }
 
@@ -165,11 +178,9 @@ server.get('/:objectType/all/:childId', async (req, res) => {
 
 
 // todo
-// topics
+
 // links
-// add link
-// add topic
-// add class
+
 // add rating
 
 

@@ -22,4 +22,6 @@ export default class DataRoutes {
     getTopicLinks = (topicId: string) => this.dataService.getLinks(topicId);
 
     addLink = (title: string, description: string, classId: string, topicId: string, link: string): Promise<boolean> => this.dataService.addLink({title, description, classId, topicId, link});
+
+    addRating = (rating: number, linkId: string) => this.dataService.addRating(linkId, rating);
 }

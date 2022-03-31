@@ -45,6 +45,9 @@ export default class UserService {
             })
     }
 
+    isLoggedInUser = (username: string) => this.loggedInUsers.has(username);
+
+
     // removes user key:value from map if available
     // logout() {
 

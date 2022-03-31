@@ -26,6 +26,10 @@ export default class UserRoutes {
         }
     }
 
+    isLoggedInUser( username: string) {
+       return this.userService.isLoggedInUser(username);
+    }
+
     async registerUser(requestBody: { username: string, password: string, email: string }): Promise<User> {
         for (const value in Object.values(requestBody)) {
             if (value.length === 0) {
