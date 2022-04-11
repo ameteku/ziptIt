@@ -3,7 +3,6 @@ import DBConnector from './services/dbConnector.service';
 import UserRoutes from './routes/users.routes';
 import checkKeys from './constants/keysChecker';
 import DataRoutes from './routes/data.routes';
-import bodyParser from 'body-parser';
 import sendErrorMessage from './constants/sendErrorMessage';
 const server = express();
 
