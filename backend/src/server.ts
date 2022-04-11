@@ -189,6 +189,6 @@ server.get('/test', (req, res) => {
     res.send("Hiiii another success my boy");
 });
 
-server.listen(8000, () => {
+server.listen(process.env.PORT || 8000, () => {
     console.log("Listening on 8000");
 })
