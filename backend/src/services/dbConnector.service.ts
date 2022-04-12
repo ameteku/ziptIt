@@ -7,10 +7,10 @@ export default class DBConnector {
     private db: FirebaseFirestore.Firestore;
 
     constructor() {
-        const serviceAccount = require('/app/dist/zipit-23932-a77e956dd224.json');
+        const serviceAccount = require('../dist/zipit-23932-a77e956dd224.json');
 
         initializeApp({
-            credential: cert(serviceAccount)
+            credential: cert('../dist/zipit-23932-a77e956dd224.json')
         });
         this.db = getFirestore();
     }
