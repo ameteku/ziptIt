@@ -3,11 +3,12 @@
   "version": "1.0.0",
   "description": "nothing yet",
   "main": "dist/server.js",
-  "tsc": "tsc",
   "scripts": {
-    "build": "npm run tsc",
+    "tsc": "tsc",
+    "build": "tsc",
     "prestart": "npm run build",
     "start": "node dist/server.js",
+    "postinstall": "npm run tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
