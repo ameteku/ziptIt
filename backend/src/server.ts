@@ -122,7 +122,7 @@ server.post('/add-rating', async (req, res)=> {
 
 });
 
-server.get('/:objectType/all/:parentId', async (req, res) => {
+server.get('/:objectType/all/:parentId?', async (req, res) => {
     const objectType = req.params.objectType;
 
     if (!objectType) {
