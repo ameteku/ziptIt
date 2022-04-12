@@ -5,10 +5,14 @@ import checkKeys from './constants/keysChecker';
 import DataRoutes from './routes/data.routes';
 import bodyParser from 'body-parser';
 import sendErrorMessage from './constants/sendErrorMessage';
+const cors = require('cors');
 const server = express();
 
 server.use(express.urlencoded());
 server.use(express.json());
+server.use(cors({
+    origin: '*'
+}));
 // loading connector
 const dbConnector = new DBConnector();
 
