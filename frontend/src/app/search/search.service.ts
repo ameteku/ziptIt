@@ -31,6 +31,7 @@ export class SearchService {
   isOptionsEmpty$: Observable<boolean>;
 
   search(q: string, flag: string): Observable<SearchOption[]> {
+    this.http.post(url, {"title": "test", "description": "test"});
     var temp;
     var tmp;
     if (flag == 'topic'){
