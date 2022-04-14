@@ -3,10 +3,19 @@
 	<app-widget-search-bar></app-widget-search-bar>
 	<br><br>
 	<button (click)="openModal('AddClass')">Add Class</button>
+	<br><br>
+	<button (click)="openModal('SignIn')">Sign in</button>
 	<jw-modal id="AddClass">
 		<h1>Add Class</h1>
 		<p>Class: <input type="text" [(ngModel)]="title" /></p>
 		<p>Description: <input type="text" [(ngModel)]="description" /></p>
 		<button (click)="closeModal('AddClass');">Close</button>
+	</jw-modal>
+	<jw-modal id="SignIn">
+		<h1>Sign In</h1>
+		<p>Username: <input type="text" [(ngModel)]="username" /></p>
+		<p>Password: <input type="password" [(ngModel)]="password" /></p>
+		<button (click)="closeModal('SignIn');">Close</button>
+		<button (click)="signIn();">Sign In</button>
 	</jw-modal>
 </div>
