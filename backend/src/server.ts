@@ -31,7 +31,7 @@ server.post('/login', (req, res) => {
 
         userRoutes.loginUser(req.body).then(result => {
 
-            res.cookie("userAuth" ,result.cookie.zipAuthHash,{expires: result.cookie.expires, httpOnly: true}).send(result.userDetails);
+            res.cookie("userAuth", result.cookie.zipAuthHash, { expires: result.cookie.expires, httpOnly: true }).send(result.userDetails);
         }).
             catch(error => {
                 console.log("Error logging in:", error);
@@ -44,7 +44,7 @@ server.post('/login', (req, res) => {
             });
     }
     else {
-            res.status(400).send("missing credentials");
+        res.status(400).send("missing credentials");
     }
 
 });
@@ -55,17 +55,17 @@ server.post('/register', (req, res) => {
     if (checkKeys(["username", "password", "email"], Object.keys(req.body))) {
 
         userRoutes.registerUser(req.body).then(result => {
-            res.cookie("userAuth" ,result.cookie.zipAuthHash,{expires: result.cookie.expires, httpOnly: true}).send(result.userDetails);
+            res.cookie("userAuth", result.cookie.zipAuthHash, { expires: result.cookie.expires, httpOnly: true }).send(result.userDetails);
         }).
-        catch(error => {
-            console.log("Error registering in:", error);
-            if (error === "EmptyFieldError") {
-                sendErrorMessage(res, 400);
-            }
-            else {
-                sendErrorMessage(res, 400);
-            }
-        });
+            catch(error => {
+                console.log("Error registering in:", error);
+                if (error === "EmptyFieldError") {
+                    sendErrorMessage(res, 400);
+                }
+                else {
+                    sendErrorMessage(res, 400);
+                }
+            });
     }
 });
 
@@ -75,7 +75,7 @@ server.post('/add/:objectType', async (req, res) => {
     const body = req.body;
     const cookie = getCookie(req)[1];
 
-    if(!userRoutes.isLoggedInUser(cookie)) {
+    if (!userRoutes.isLoggedInUser(cookie)) {
         sendErrorMessage(res, 404, "not logged in");
         return;
     }
@@ -92,6 +92,10 @@ server.post('/add/:objectType', async (req, res) => {
                 break;
             }
 
+            if (!(await userRoutes.getUserInfoFromCookie(cookie)).accessLevel.includes("Admin")) {
+                res.status(500).send("Not an admin, sorry!");
+            }
+
             isSuccess = await dataRoutes.addClass(body.title, body.description);
             break;
 
@@ -105,7 +109,7 @@ server.post('/add/:objectType', async (req, res) => {
 
         case 'link':
             console.log("in link", body);
-            if(!checkKeys(['title', 'description', 'classId', 'topicId', 'link'], Object.keys(body))) {
+            if (!checkKeys(['title', 'description', 'classId', 'topicId', 'link'], Object.keys(body))) {
                 break;
             }
 
@@ -125,12 +129,12 @@ server.post('/add/:objectType', async (req, res) => {
 });
 
 // send a rating value out of 5, linkid, user account
-server.post('/add-rating', async (req, res)=> {
+server.post('/add-rating', async (req, res) => {
     const body = req.body;
     const cookie = getCookie(req)[1];
     console.log(cookie);
     // checking for any wmissing items
-    if(!cookie || !userRoutes.isLoggedInUser(cookie) || !body || !checkKeys(["rating", "linkId", "username"], Object.keys(body))) {
+    if (!cookie || !userRoutes.isLoggedInUser(cookie) || !body || !checkKeys(["rating", "linkId", "username"], Object.keys(body))) {
         sendErrorMessage(res, 401, "Bad request");
         return;
     }

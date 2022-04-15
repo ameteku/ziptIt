@@ -18,7 +18,7 @@ export default class UserService {
     // checks if user is in db using password and username/email,
     // if so add username as key with docid as value and return user data
     // if not return user not found error
-    async login(username: string, password: string): Promise<boolean |  User> {
+    async login(username: string, password: string): Promise<boolean | User> {
         if (username.length === 0 || password.length === 0) {
             console.log("empty field");
             return false;
@@ -33,7 +33,7 @@ export default class UserService {
                 }
                 else {
                     const userData = result.docs[0].data();
-                    this.loggedInUsers.set(userData.username as string,result.docs[0].id);
+                    this.loggedInUsers.set(userData.username as string, result.docs[0].id);
 
                     console.log("cookie created and set");
                     return {
@@ -71,6 +71,20 @@ export default class UserService {
             doc: userData,
             collectionPath: "users",
         })
+    }
+
+    async getUser(username: string): Promise<User | null> {
+        const userDoc = (await this.db.database.collection("users").where("username", "==", username).limit(1).get()).docs[0];
+        const data = userDoc.data();
+        if (!userDoc) return;
+
+        return {
+            id: userDoc.id,
+            name: data.name,
+            username: data.username,
+            email: data.email,
+            accessLevel: data.accessLevel
+        }
     }
 
     hashPassword(password: string): string {

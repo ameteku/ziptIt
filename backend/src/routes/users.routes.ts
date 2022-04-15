@@ -7,11 +7,11 @@ export default class UserRoutes {
     private userCookies: Map<string, UserAuthCookie>;
     constructor(db: DBConnector) {
         this.userService = new UserService(db);
-       // <cookieValue, cookieObject>
+        // <cookieValue, cookieObject>
         this.userCookies = new Map<string, UserAuthCookie>();
     }
 
-    async loginUser(requestBody: { username: string, password: string }): Promise<{userDetails: User} & {cookie: UserAuthCookie}> {
+    async loginUser(requestBody: { username: string, password: string }): Promise<{ userDetails: User } & { cookie: UserAuthCookie }> {
         if (requestBody.password.length === 0 || requestBody.username.length === 0) {
             throw new Error("EmptyFieldError");
         }
@@ -29,12 +29,18 @@ export default class UserRoutes {
         }
     }
 
-    isLoggedInUser(cookieValue: string): boolean{
-       return this.userCookies.has(cookieValue);
+    isLoggedInUser(cookieValue: string): boolean {
+        return this.userCookies.has(cookieValue);
     }
 
-    async registerUser(requestBody: { username: string, password: string, email: string }): Promise<{userDetails: User, cookie: UserAuthCookie}> {
-        
+    async getUserInfoFromCookie(cookieValue: string): Promise<User> {
+        const username = this.userCookies.get(cookieValue)?.username;
+        if (username) {
+            return await this.userService.getUser(username);
+        }
+    }
+
+    async registerUser(requestBody: { username: string, password: string, email: string }): Promise<{ userDetails: User, cookie: UserAuthCookie }> {
         for (const value in Object.values(requestBody)) {
             if (value.length === 0) {
                 throw new Error(`EmptyFieldError`);
@@ -42,7 +48,7 @@ export default class UserRoutes {
 
         }
 
-        if(!this.isUakronEmail(requestBody.email)) {
+        if (!this.isUakronEmail(requestBody.email)) {
             throw new Error(`InvalidEmailAddress`);
         }
         const newUser: User = {
@@ -58,10 +64,10 @@ export default class UserRoutes {
             password: requestBody.password,
         });
 
-        if(isRegistered) {
+        if (isRegistered) {
             const newCookie = this.createCookie(requestBody.username);
             this.userCookies.set(newCookie.zipAuthHash, newCookie);
-            return {cookie: newCookie, userDetails: newUser};
+            return { cookie: newCookie, userDetails: newUser };
         }
         else {
             throw new Error("FailedToRegister");
@@ -89,12 +95,12 @@ export default class UserRoutes {
 
         let newCookieHash = '~';
 
-        while(newCookieHash.length <20) {
+        while (newCookieHash.length < 20) {
             newCookieHash += Math.random() * 10 + Math.random() * (-10);
         }
         const newCookie: UserAuthCookie = {
             zipAuthHash: newCookieHash,
-            expires:new  Date(Date.now()+ 90000),
+            expires: new Date(Date.now() + 90000),
             username,
         }
 
