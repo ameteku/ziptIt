@@ -1,10 +1,12 @@
-import { User } from "../models/user.model";
+import { User, UserAuthCookie } from "../models/user.model";
 import DBConnector from "./dbConnector.service";
 import type dbConstants from "../constants/dbConstants";
 
 export default class UserService {
     db: DBConnector;
     private loggedInUsers: Map<string, string>;
+    // <userName, cookie>
+
 
     constructor(database: DBConnector) {
         this.db = database;
@@ -16,10 +18,12 @@ export default class UserService {
     // checks if user is in db using password and username/email,
     // if so add username as key with docid as value and return user data
     // if not return user not found error
-    async login(username: string, password: string): Promise<boolean | User> {
+    async login(username: string, password: string): Promise<boolean |  User> {
         if (username.length === 0 || password.length === 0) {
+            console.log("empty field");
             return false;
         }
+        console.log("no empty field");
 
         return await this.db.database.collection("users").where("username", "==", username)?.where("password", "==", this.hashPassword(password))
             .get()
@@ -31,6 +35,7 @@ export default class UserService {
                     const userData = result.docs[0].data();
                     this.loggedInUsers.set(userData.username as string,result.docs[0].id);
 
+                    console.log("cookie created and set");
                     return {
                         id: result.docs[0].id,
                         name: userData.name,
@@ -42,7 +47,7 @@ export default class UserService {
             }).catch(error => {
                 console.log(`Error logging in user: ${error}`);
                 return false;
-            })
+            });
     }
 
     isLoggedInUser = (username: string) => this.loggedInUsers.has(username);

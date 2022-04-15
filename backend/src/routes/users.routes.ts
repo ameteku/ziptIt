@@ -1,36 +1,40 @@
-import { User } from "../models/user.model";
+import { User, UserAuthCookie } from "../models/user.model";
 import DBConnector from "../services/dbConnector.service";
 import UserService from "../services/users.service";
 
 export default class UserRoutes {
     userService: UserService;
+    private userCookies: Map<string, UserAuthCookie>;
     constructor(db: DBConnector) {
         this.userService = new UserService(db);
+       // <cookieValue, cookieObject>
+        this.userCookies = new Map<string, UserAuthCookie>();
     }
 
-    loginUser(requestBody: { username: string, password: string }): Promise<User> {
+    async loginUser(requestBody: { username: string, password: string }): Promise<{userDetails: User} & {cookie: UserAuthCookie}> {
         if (requestBody.password.length === 0 || requestBody.username.length === 0) {
             throw new Error("EmptyFieldError");
         }
         else {
-            return this.userService.login(requestBody.username, requestBody.password).then(
-                result => {
-                    if (typeof result === "boolean") {
-                        throw new Error("FailedToLogin");
-                    }
-                    else {
-                        return result;
-                    }
-                }
-            );
+            const result = await this.userService.login(requestBody.username, requestBody.password);
+
+            if (typeof result === "boolean") {
+                throw new Error("FailedToLogin");
+            }
+            else {
+                const newCookie = this.createCookie(requestBody.username);
+                this.userCookies.set(newCookie.zipAuthHash, newCookie);
+                return { userDetails: result, cookie: newCookie };
+            }
         }
     }
 
-    isLoggedInUser( username: string) {
-       return this.userService.isLoggedInUser(username);
+    isLoggedInUser(cookieValue: string): boolean{
+       return this.userCookies.has(cookieValue);
     }
 
-    async registerUser(requestBody: { username: string, password: string, email: string }): Promise<User> {
+    async registerUser(requestBody: { username: string, password: string, email: string }): Promise<{userDetails: User, cookie: UserAuthCookie}> {
+        
         for (const value in Object.values(requestBody)) {
             if (value.length === 0) {
                 throw new Error(`EmptyFieldError`);
@@ -55,7 +59,9 @@ export default class UserRoutes {
         });
 
         if(isRegistered) {
-            return newUser;
+            const newCookie = this.createCookie(requestBody.username);
+            this.userCookies.set(newCookie.zipAuthHash, newCookie);
+            return {cookie: newCookie, userDetails: newUser};
         }
         else {
             throw new Error("FailedToRegister");
@@ -77,5 +83,21 @@ export default class UserRoutes {
             id = email.substring(0, email.search('@'));
         }
         return id;
+    }
+
+    createCookie(username: string) {
+
+        let newCookieHash = '~';
+
+        while(newCookieHash.length <20) {
+            newCookieHash += Math.random() * 10 + Math.random() * (-10);
+        }
+        const newCookie: UserAuthCookie = {
+            zipAuthHash: newCookieHash,
+            expires:new  Date(Date.now()+ 90000),
+            username,
+        }
+
+        return newCookie;
     }
 }
