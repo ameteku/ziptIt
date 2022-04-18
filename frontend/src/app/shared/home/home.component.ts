@@ -21,9 +21,9 @@ export class HomeComponent implements OnInit {
   constructor(private modalService: ModalService, private http: HttpClient) {
      this.httpOptions = {
       headers: new HttpHeaders({
-        'Content-Type':  'application/json'
+        "Access-Control-Allow-Origin": "GET, POST, PUT, DELETE, OPTIONS",
       }),
-      observe: 'response'
+      observe: 'response',
   };
    }
 
@@ -36,6 +36,8 @@ export class HomeComponent implements OnInit {
   }
   openModal(id: string) {
     this.modalService.open(id);
+    this.username = "";
+    this.password = "";
 }
 
 closeModal(id: string) {
@@ -47,11 +49,19 @@ closeModal(id: string) {
 signIn(){
   console.log(this.username);
   console.log(this.password);
-  this.http.post<User>(this.url, {"username": this.username, "password": this.password}).subscribe(data => { console.log(data);
-    this.delay(2000);
-    this.respData = data});
-  
-  console.log(this.respData);
+
+  var test = this.http.post<User>(this.url, {"username": this.username, "password": this.password}).subscribe(data => { 
+    if (data.accessLevel[0] == "Regular"){
+      alert("Regular User");
+    }
+    else{
+      alert("user not found");
+    }
+  });
+if (!test.closed){
+  alert("user not found");
+}
+console.log(test);
 }
 
 signUp(){
@@ -61,8 +71,5 @@ signUp(){
   this.password = "";
 }
 
-delay(ms: number) {
-  return new Promise( resolve => setTimeout(resolve, ms) );
-}
 
 }
