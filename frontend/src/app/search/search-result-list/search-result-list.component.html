@@ -12,16 +12,12 @@
 		<div class="card" *ngFor="let item of selectedOptions">
 			<div class="row" *ngIf="selectedOptions.length > 0">
 				<div>
-					<div class=" col-3 p-4">
-						<img src="{{item.imageUrl}}" class="rounded selected-image" alt="Selected Image">
-					</div>
 					<div class="col-9 p-4">
 						<h5>{{item.name}}</h5>
-						<p>{{item.description}}</p>
+						<p> Description: {{item.description}}</p>
 						<p>
-							<span>Price: {{item.price}} </span>
-							<span>Quantity: {{item.quantity}} </span>
-
+							<span>Department: {{item.department}} </span>
+							<app-widget-search-bar-button></app-widget-search-bar-button>
 						</p>
 					</div>
 

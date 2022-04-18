@@ -8,10 +8,12 @@ import { HeaderComponent } from './shared/header/header.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { HomeComponent } from './shared/home/home.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ModalModule } from './_modal';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [AppComponent, HeaderComponent, FooterComponent, HomeComponent],
-  imports: [BrowserModule, AppRoutingModule, SearchModule, BrowserAnimationsModule],
+  imports: [BrowserModule, AppRoutingModule, SearchModule, BrowserAnimationsModule, ModalModule, FormsModule],
   providers: [],
   bootstrap: [AppComponent],
 })

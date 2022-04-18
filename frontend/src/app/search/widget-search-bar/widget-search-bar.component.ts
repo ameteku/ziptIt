@@ -26,7 +26,7 @@ export class WidgetSearchBarComponent implements OnInit {
       debounceTime(500),
       distinctUntilChanged(),
       switchMap((term) =>
-        term.length == 0 ? of([]) : this.searchService.search(term)
+        term.length == 0 ? of([]) : this.searchService.search(term, '!topic')
       )
     );
   }
@@ -49,15 +49,13 @@ export class WidgetSearchBarComponent implements OnInit {
   }
 
   onSubmit(f: NgForm) {
-    this.searchService.options$ = this.searchService.search(f.value.search);
+    this.searchService.options$ = this.searchService.search(f.value.search, "!topic");
 
     this.searchService.updateSelectedOption({
       id: null,
-      name: null,
       description: null,
-      price: null,
-      imageUrl: null,
-      quantity: null,
+      title: null,
+      relatedTopicIds: null,
     });
 
     this.searchService.isOptionsEmpty$ = this.searchService.options$.pipe(
