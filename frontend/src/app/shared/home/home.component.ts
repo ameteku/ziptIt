@@ -18,6 +18,7 @@ export class HomeComponent implements OnInit {
   respData: User;
   httpOptions;
   isAdmin: boolean = false;
+  isPostComplete: boolean = false;
 
   constructor(private modalService: ModalService, private http: HttpClient) {
      this.httpOptions = {
@@ -51,19 +52,38 @@ signIn(){
   console.log(this.username);
   console.log(this.password);
 
-  var test = this.http.post<User>(this.url, {"username": this.username, "password": this.password}).subscribe(data => { 
-    if (data.accessLevel[0] == "Regular"){
-      alert("Regular User Logged in");
-    }
-    else if(data.accessLevel[0] == "Admin"){
-      alert("Admin User Logged In");
-      this.isAdmin = true;
-    }
-  });
-if (!test.closed){
-  alert("user not found");
+  var test = this.http.post<User>(this.url, {"username": this.username, "password": this.password}).subscribe({
+    next: data => {
+      if(data.accessLevel[0] == "Regular"){
+        alert("Regular user logged in");
+     }
+     else if(data.accessLevel[0] == "Admin"){
+       alert("Admin user logged in");
+       this.isAdmin = true;
+     }
+     this.closeModal("SignIn");
+  }, 
+  error: error => {
+    console.error('There was an error!', error);
+    alert("Invalid username or password");
 }
-console.log(test);
+  });
+  //   if (data.accessLevel[0] == "Regular"){
+  //     alert("Regular User Logged in");
+  //     this.isPostComplete = true;
+  //   }
+  //   else if(data.accessLevel[0] == "Admin"){
+  //     alert("Admin User Logged In");
+  //     this.isAdmin = true;
+  //     this.isPostComplete = true;
+  //   }
+  // });
+
+  // if(test.)
+  // if (!test.closed && !this.isPostComplete){
+  //   alert("Invalid Username or Password");
+  // }
+  // this.closeModal('SignIn');
 }
 
 signUp(){
