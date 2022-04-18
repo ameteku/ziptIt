@@ -17,6 +17,7 @@ export class HomeComponent implements OnInit {
   url: string;
   respData: User;
   httpOptions;
+  isAdmin: boolean = false;
 
   constructor(private modalService: ModalService, private http: HttpClient) {
      this.httpOptions = {
@@ -52,10 +53,11 @@ signIn(){
 
   var test = this.http.post<User>(this.url, {"username": this.username, "password": this.password}).subscribe(data => { 
     if (data.accessLevel[0] == "Regular"){
-      alert("Regular User");
+      alert("Regular User Logged in");
     }
-    else{
-      alert("user not found");
+    else if(data.accessLevel[0] == "Admin"){
+      alert("Admin User Logged In");
+      this.isAdmin = true;
     }
   });
 if (!test.closed){

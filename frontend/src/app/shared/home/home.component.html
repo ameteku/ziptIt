@@ -2,7 +2,7 @@
 	<h1 class="display-4">Search for a class</h1>
 	<app-widget-search-bar></app-widget-search-bar>
 	<br><br>
-	<button (click)="openModal('AddClass')">Add Class</button>
+	<button *ngIf="isAdmin"(click)="openModal('AddClass')">Add Class</button>
 	<br><br>
 	<button (click)="openModal('SignIn')">Sign in</button>
 	<br><br>
