@@ -10,15 +10,20 @@ import { User } from './SignIn';
 })
 export class HomeComponent implements OnInit {
   title: string;
+  passwordMatch: boolean = false;
   description: string;
   username: string;
   password: string;
   email: string;
-  url: string;
+  loginURL: string;
   respData: User;
   httpOptions;
+  firstname: string;
+  lastname: string;
   isAdmin: boolean = false;
   isPostComplete: boolean = false;
+  confirmPassword: string;
+  signupURL: string = 'https://zipit-backend.herokuapp.com/register';
 
   constructor(private modalService: ModalService, private http: HttpClient) {
      this.httpOptions = {
@@ -30,16 +35,23 @@ export class HomeComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    this.url = 'https://zipit-backend.herokuapp.com/login';
+    this.loginURL = 'https://zipit-backend.herokuapp.com/login';
+
     this.title = "";
     this.description = "";
     this.username = "";
     this.password = "";
+    this.firstname = "";
+    this.lastname ="";
   }
   openModal(id: string) {
     this.modalService.open(id);
     this.username = "";
     this.password = "";
+    this.firstname = "";
+    this.lastname = "";
+    this.confirmPassword = "";
+    this.email = "";
 }
 
 closeModal(id: string) {
@@ -52,7 +64,7 @@ signIn(){
   console.log(this.username);
   console.log(this.password);
 
-  var test = this.http.post<User>(this.url, {"username": this.username, "password": this.password}).subscribe({
+  var test = this.http.post<User>(this.loginURL, {"username": this.username, "password": this.password}).subscribe({
     next: data => {
       if(data.accessLevel[0] == "Regular"){
         alert("Regular user logged in");
@@ -87,10 +99,41 @@ signIn(){
 }
 
 signUp(){
-  console.log(this.username);
-  console.log(this.password);
-  this.username = "";
-  this.password = "";
+  while (this.password != this.confirmPassword){
+    alert("Passwords do not match");
+    this.password = "";
+    this.confirmPassword = "";
+  }
+
+  this.http.post<User>(this.loginURL, {"username": this.username, "password": this.password}).subscribe({
+    next: data => {
+      alert("User already exists!");
+      this.firstname="";
+      this.lastname="";
+      this.username ="";
+      this.password ="";
+      this.confirmPassword="";
+      this.email="";
+  }, 
+  error: error => {
+    this.http.post<User>(this.signupURL, {"username": this.username, "password": this.password, "firstname": this.firstname, "lastname": this.lastname, "email": this.email}).subscribe({
+      next: data => {
+        alert("User created!");
+        this.firstname="";
+        this.lastname="";
+        this.username ="";
+        this.password ="";
+        this.confirmPassword="";
+        this.email="";
+    },
+    error: error => {
+      console.error('There was an error!', error);
+      alert("Invalid username or password");
+    }
+      });
+    
+}
+  });
 }
 
 
