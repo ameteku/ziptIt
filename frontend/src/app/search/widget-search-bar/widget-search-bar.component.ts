@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable, Subject, of } from 'rxjs';
 import { SearchService } from '../search.service';
-import { SearchOption } from '../searchOption';
+import { ClassTopic } from '../ClassTopic';
+import { ClassSearch } from '../ClassSearch';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import {
@@ -17,7 +18,7 @@ import {
   styleUrls: ['./widget-search-bar.component.scss'],
 })
 export class WidgetSearchBarComponent implements OnInit {
-  searchResults$: Observable<SearchOption[]>;
+  searchResults$: Observable<ClassSearch[]>;
   term$ = new Subject<string>();
   windowOpen$: Observable<boolean>;
 
@@ -37,9 +38,9 @@ export class WidgetSearchBarComponent implements OnInit {
     );
   }
 
-  searchOption(option: SearchOption) {
+  searchOption(option: ClassSearch) {
     console.log(option);
-    let emptyArray: SearchOption[] = [];
+    let emptyArray: ClassSearch[] = [];
     this.searchService.updateSelectedOptions(emptyArray);
     this.searchService.updateSelectedOption(option);
     this.searchService.isOptionEmpty$ = this.searchService.option$.pipe(
