@@ -11,7 +11,8 @@
 		<h1>Add Class</h1>
 		<p>Class: <input type="text" [(ngModel)]="title" placeholder="Enter a title" /></p>
 		<p>Description: <input type="text" [(ngModel)]="description" placeholder="Enter description" /></p>
-		<button (click)="closeModal('AddClass');">Close</button>
+		<button style="margin-right: 20px" (click)="closeModal('AddClass');">Close</button>
+		<button (click)="addClass()">Add Class</button>
 	</jw-modal>
 	<jw-modal id="SignIn">
 		<h1>Sign In</h1>

@@ -10,6 +10,7 @@ import { User } from './SignIn';
 })
 export class HomeComponent implements OnInit {
   title: string;
+  addClassURL: string;
   passwordMatch: boolean = false;
   description: string;
   username: string;
@@ -20,7 +21,7 @@ export class HomeComponent implements OnInit {
   httpOptions;
   firstname: string;
   lastname: string;
-  isAdmin: boolean = false;
+  isAdmin: boolean = true;
   isPostComplete: boolean = false;
   confirmPassword: string;
   signupURL: string = 'https://zipit-backend.herokuapp.com/register';
@@ -36,6 +37,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.loginURL = 'https://zipit-backend.herokuapp.com/login';
+    this.addClassURL = 'https://zipit-backend.herokuapp.com/add/class';
 
     this.title = "";
     this.description = "";
@@ -64,7 +66,7 @@ signIn(){
   console.log(this.username);
   console.log(this.password);
 
-  var test = this.http.post<User>(this.loginURL, {"username": this.username, "password": this.password}).subscribe({
+  this.http.post<User>(this.loginURL, {"username": this.username, "password": this.password}).subscribe({
     next: data => {
       if(data.accessLevel[0] == "Regular"){
         alert("Regular user logged in");
@@ -80,22 +82,6 @@ signIn(){
     alert("Invalid username or password");
 }
   });
-  //   if (data.accessLevel[0] == "Regular"){
-  //     alert("Regular User Logged in");
-  //     this.isPostComplete = true;
-  //   }
-  //   else if(data.accessLevel[0] == "Admin"){
-  //     alert("Admin User Logged In");
-  //     this.isAdmin = true;
-  //     this.isPostComplete = true;
-  //   }
-  // });
-
-  // if(test.)
-  // if (!test.closed && !this.isPostComplete){
-  //   alert("Invalid Username or Password");
-  // }
-  // this.closeModal('SignIn');
 }
 
 signUp(){
@@ -135,6 +121,20 @@ signUp(){
 }
   });
 }
+
+  addClass(){
+    this.http.post<User>(this.addClassURL, {"title": this.title, "description": this.description}).subscribe({
+      next: data => {
+        alert("Class added!");
+        this.title="";
+        this.description="";
+    }, 
+    error: error => {
+      console.error('There was an error!', error);
+      alert("There was an error class could not be added");
+  }
+    });
+  }
 
 
 }
