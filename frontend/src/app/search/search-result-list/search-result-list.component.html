@@ -16,6 +16,7 @@
 						<h5>{{item.title}}</h5>
 						<p> Description: {{item.description}}</p>
 						<p>
+							<button (click)="showClassTopics(item.id)">Class Topics</button>
 							<app-widget-search-bar-button></app-widget-search-bar-button>
 						</p>
 					</div>

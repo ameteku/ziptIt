@@ -5,9 +5,9 @@ var database = { products: [] };
 for (var i = 1; i <= 300; i++) {
   database.products.push({
     id: i,
-    name: faker.commerce.productName(),
-    description: faker.lorem.sentences(),
-    department: faker.commerce.price(),
+    title: faker.class.title(),
+    description: faker.class.description(),
+    relatedTopicIds: faker.class.relatedTopicIds(),
   });
 }
 

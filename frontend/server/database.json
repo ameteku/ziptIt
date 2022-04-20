@@ -1,61 +1,122 @@
 {
-	"Classes":[ 
-	{
-		"id": "1",
-		"name": "Senior Seminar",
-		"department": "Computer Science",
-		"description": "Class to prepare CS students to get jobs in the CS field.",
-		"classNum" : "1234"
-	},
+	"Classes" : [
+    {
+        "id": "2RMxujdnWenXPTmY81iq",
+        "title": "entreprenuership",
+        "description": "An intro to how to start your own business",
+        "relatedTopicIds": [ "12345", "54321" ]
+    },
+    {
+        "id": "2uQKwzFB8VuUSv8Jj3tI",
+        "description": "The senior seminar class etc etc",
+        "title": "Parallel Processing",
+        "relatedTopicIds": []
+    },
+    {
+        "id": "4XAcrnD2n3VHiWU7G0ap",
+        "relatedTopicIds": [],
+        "title": "Parallel Processing",
+        "description": "The senior seminar class etc etc"
+    },
+    {
+        "id": "86E6xedQeCKIlDr1kWRf",
+        "title": "Parallel Processing",
+        "relatedTopicIds": [],
+        "description": "The senior seminar class etc etc"
+    },
+    {
+        "id": "BeHTWxIou2RAlaF9GojA",
+        "title": "Parallel Processing",
+        "relatedTopicIds": [],
+        "description": "The senior seminar class etc etc"
+    },
+    {
+        "id": "BmoBadau4PA8i500twTL",
+        "title": "Parallel Processing",
+        "description": "The senior seminar class etc etc",
+        "relatedTopicIds": []
+    },
+    {
+        "id": "YWiABwgAmoQQactzVYYv",
+        "relatedTopicIds": [],
+        "title": "test",
+        "description": "this is a test description"
+    },
+    {
+        "id": "Z96nfsxvdy97IbbMap",
+        "description": "The senior seminar class etc etc test",
+        "relatedTopicIds": [],
+        "title": "Senior Seminar"
+    },
+    {
+        "id": "hi6HsdcaiDdGOqzm23vV",
+        "title": "Senior Seminar",
+        "description": "The senior seminar class etc etc",
+        "relatedTopicIds": []
+    },
+    {
+        "id": "l5ZDq5zuROdAQEKZ0RZn",
+        "relatedTopicIds": [],
+        "title": "Senior Seminar",
+        "description": "The senior seminar class etc etc"
+    },
+    {
+        "id": "p6wuHv8JRkY1Z6Sfc9NB",
+        "title": "Senior Seminar",
+        "relatedTopicIds": [],
+        "description": "The senior seminar class etc etc"
+    },
+    {
+        "id": "rcidhzJ7bz8WoiszWYS0",
+        "relatedTopicIds": [],
+        "title": "Senior Seminar",
+        "description": "The senior seminar class etc etc"
+    },
+    {
+        "id": "wm0Aov7vKIUYOMEDX1Tr",
+        "title": "Parallel Processing",
+        "relatedTopicIds": [],
+        "description": "The senior seminar class etc etc"
+    }
+],
 
-	{
-		"id": "2",
-		"name" : "Algorithms",
-		"department" : "Computer Science",
-		"description" : "This course introduces basic methods for the design and analysis of efficient algorithms emphasizing methods useful in practice.",
-		"classNum": "12345"
-	},
-	{
-		"id": "3",
-		"name" : "Computer Science 1",
-		"department" : "Computer Science",
-		"description" : "The course covers techniques for writing computer programs in high level programming languages to solve problems of interest in a range of application domains.",
-		"classNum": "123456"
-	},
-	{
-		"id": "4",
-		"name": "Bach to Rock",
-		"department": "Music and Arts",
-		"description" : "Bach to Rock is a music education school for students of all ages, from early childhood through high school and beyond.",
-		"classNum":"1234567"
-	},
-	{
-		"id": "5",
-		"name":"Technical Writing",
-		"department" : "English",
-		"description" : "provides a complete process for planning, writing, and editing technical documents, including assessing the needs of users, selecting document formats, and making effective use of graphics.",
-		"classNum:" : "12345678"
-	},
-	{
-		"id":"6",
-		"name": "Physics",
-		"department": "Natural Science",
-		"description" : "This course is survey of major concepts, methods, and applications of physics. Topics include a description of motion, Newton's Laws, conservation principles (energy and momentum), waves, thermodynamics, electricity, magnetism, optics, and modern physics.",
-		"classNum": "123124"
-	},
-	{
-		"id": "7",
-		"name": "Intro to management",
-		"department": "Business",
-		"description": "It examines the evolution of management theory, organisational environments, and corporate social responsibility and ethics.",
-		"classNum": "237897"
-	},
-	{
-		"id": "8",
-		"name" : "Ceramics",
-		"department": "Music and Arts",
-		"description": "This class will introduce students to building with clay. Emphasis will be placed on the design elements; line, shape, texture, and color.",
-		"classNum": "123124"
-	}
+	"Topics": 
+	[
+		{
+			"id": "38peOSwWN2bgs75dODup",
+			"topicId": "UkTyAMUP3XmLL8H4fKCO",
+			"description": "A youtube video lol",
+			"classId": "Z96nfsxvdy97IbbMapQf",
+			"ratings": {
+				"ratings": []
+			},
+			"actualLink": "https://www.britannica.com/science/chemistry",
+			"title": "Chemistry"
+		},
+		{
+			"id": "4C9JDrThcGeSpdRgkWcQ",
+			"actualLink": "https://www.britannica.com/science/chemistry",
+			"topicId": "UkTyAMUP3XmLL8H4fKCO",
+			"description": "A youtube video lol",
+			"classId": "Z96nfsxvdy97IbbMapQf",
+			"ratings": {
+				"ratings": []
+			},
+			"title": "Chemistry"
+		},
+		{
+			"id": "C6mAl9dWDrocN8PSD6uy",
+			"description": "An intro to how to start your own business",
+			"classId": "Z96nfsxvdy97IbbMap",
+			"title": "entreprenuership",
+			"linkIds": []
+		},
+		{
+			"id": "UkTyAMUP3XmLL8H4fKCO",
+			"classId": "Z96nfsxvdy97IbbMap",
+			"description": "An intro to how to start your own business",
+			"linkIds": [],
+			"title": "entreprenuership"
+		}
 	]
 }

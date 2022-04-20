@@ -12,4 +12,10 @@ export class SearchResultListComponent implements OnInit {
   constructor(public searchService: SearchService) {}
 
   ngOnInit(): void {}
+
+  showClassTopics(id: string){
+    console.log(id);
+    this.searchService.search(id, "topic");
+
+  }
 }

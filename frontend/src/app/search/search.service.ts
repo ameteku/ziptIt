@@ -11,7 +11,7 @@ import { stringify } from 'querystring';
   providedIn: 'root',
 })
 export class SearchService {
-  private SERVER_URL = 'https://zipit-backend.herokuapp.com/class/';
+  private SERVER_URL = 'http://localhost:3000/';
 
   constructor(private http: HttpClient) {}
 
@@ -31,22 +31,18 @@ export class SearchService {
 
   isOptionsEmpty$: Observable<boolean>;
 
-  search(q: string, flag: string): Observable<ClassSearch[]> {
-    this.http.post(url, {"title": "test", "description": "test"});
+  search(q: string, flag: string): Observable<any> {
     var temp;
-    var tmp;
     if (flag == 'topic'){
-      temp = "Classes?id=";
+      console.log("test2");
+      temp = "Topics?classId_like=" + q;
+      return this.http.get<ClassTopic[]>(this.SERVER_URL + temp + q);
     }
     else{
-      temp = "all";
+      temp = "Classes?title_like=";
     }
-    tmp = this.http.get<ClassSearch[]>(this.SERVER_URL + temp);
-    console.log(tmp);
-    var url = 'https://zipit-backend.herokuapp.com/add/class';
-    this.http.post(url, {"title": "test", "description": "test"});
     return this.http.get<ClassSearch[]>(
-      this.SERVER_URL + temp,
+      this.SERVER_URL + temp + q,
       {
         headers: {
           "Access-Control-Allow-Origin": "GET, POST, PUT, DELETE, OPTIONS",
