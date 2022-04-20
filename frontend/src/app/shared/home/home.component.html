@@ -7,6 +7,8 @@
 	<button (click)="openModal('SignIn')">Sign in</button>
 	<br><br>
 	<button (click)="openModal('SignUp')">Sign up</button>
+	<br><br>
+	<button (click)="logout()">Logout</button>
 	<jw-modal id="AddClass">
 		<h1>Add Class</h1>
 		<p>Class: <input type="text" [(ngModel)]="title" placeholder="Enter a title" /></p>

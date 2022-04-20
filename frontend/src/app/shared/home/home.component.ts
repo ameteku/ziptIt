@@ -22,6 +22,7 @@ export class HomeComponent implements OnInit {
   firstname: string;
   lastname: string;
   isAdmin: boolean = true;
+  isRegular: boolean = false;
   isPostComplete: boolean = false;
   confirmPassword: string;
   signupURL: string = 'https://zipit-backend.herokuapp.com/register';
@@ -136,5 +137,9 @@ signUp(){
     });
   }
 
-
+  logout(){
+    this.isAdmin = false;
+    this.isRegular = false;
+    alert("User Logged Out");
+  }
 }
