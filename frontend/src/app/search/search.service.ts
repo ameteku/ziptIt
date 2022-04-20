@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/internal/Observable';
-import { SearchOption } from './searchOption';
+import { ClassTopic } from './ClassTopic';
+import { ClassSearch } from './ClassSearch';
 import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { stringify } from 'querystring';
@@ -14,14 +15,14 @@ export class SearchService {
 
   constructor(private http: HttpClient) {}
 
-  private selectedOption = new BehaviorSubject<SearchOption>({
+  private selectedOption = new BehaviorSubject<ClassSearch>({
     id: null,
     description: null,
     title: null,
     relatedTopicIds: null,
   });
 
-  private selectedOptions = new BehaviorSubject<SearchOption[]>([]);
+  private selectedOptions = new BehaviorSubject<ClassSearch[]>([]);
 
   option$ = this.selectedOption.asObservable();
   options$ = this.selectedOptions.asObservable();
@@ -30,7 +31,7 @@ export class SearchService {
 
   isOptionsEmpty$: Observable<boolean>;
 
-  search(q: string, flag: string): Observable<SearchOption[]> {
+  search(q: string, flag: string): Observable<ClassSearch[]> {
     this.http.post(url, {"title": "test", "description": "test"});
     var temp;
     var tmp;
@@ -40,11 +41,11 @@ export class SearchService {
     else{
       temp = "all";
     }
-    tmp = this.http.get<SearchOption[]>(this.SERVER_URL + temp);
+    tmp = this.http.get<ClassSearch[]>(this.SERVER_URL + temp);
     console.log(tmp);
     var url = 'https://zipit-backend.herokuapp.com/add/class';
     this.http.post(url, {"title": "test", "description": "test"});
-    return this.http.get<SearchOption[]>(
+    return this.http.get<ClassSearch[]>(
       this.SERVER_URL + temp,
       {
         headers: {
@@ -54,11 +55,11 @@ export class SearchService {
     );
   }
 
-  updateSelectedOption(option: SearchOption) {
+  updateSelectedOption(option: ClassSearch) {
     this.selectedOption.next(option);
   }
 
-  updateSelectedOptions(options: SearchOption[]) {
+  updateSelectedOptions(options: ClassSearch[]) {
     this.selectedOptions.next(options);
   }
 }
