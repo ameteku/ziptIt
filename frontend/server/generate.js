@@ -7,7 +7,8 @@ for (var i = 1; i <= 300; i++) {
     id: i,
     name: faker.commerce.productName(),
     description: faker.lorem.sentences(),
-    department: faker.commerce.price(),
+    price: faker.commerce.price(),
+    quantity: faker.random.number(),
   });
 }
 

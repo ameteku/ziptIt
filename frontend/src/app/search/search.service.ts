@@ -41,12 +41,11 @@ export class SearchService {
     else{
       temp = "all";
     }
-    tmp = this.http.get<ClassSearch[]>(this.SERVER_URL + temp);
     console.log(tmp);
     var url = 'https://zipit-backend.herokuapp.com/add/class';
-    this.http.post(url, {"title": "test", "description": "test"});
+    //this.http.post(url + 'class?title_like=' + q, {"title": "test", "description": "test"});
     return this.http.get<ClassSearch[]>(
-      this.SERVER_URL + temp,
+      this.SERVER_URL + 'title_like=' + q,
       {
         headers: {
           "Access-Control-Allow-Origin": "GET, POST, PUT, DELETE, OPTIONS",
