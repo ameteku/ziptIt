@@ -8,6 +8,7 @@ import { WidgetSearchBarComponent } from './widget-search-bar/widget-search-bar.
 import { WidgetSearchBarButtonComponent } from './widget-search-bar-button/widget-search-bar-button.component';
 import { SearchResultListComponent } from './search-result-list/search-result-list.component';
 import { SearchResultItemComponent } from './search-result-item/search-result-item.component';
+import { ModalModule } from '../_modal';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,7 @@ import { SearchResultItemComponent } from './search-result-item/search-result-it
     SearchResultListComponent,
     SearchResultItemComponent,
   ],
-  imports: [CommonModule, SearchRoutingModule, HttpClientModule, FormsModule],
+  imports: [CommonModule, SearchRoutingModule, HttpClientModule, FormsModule, ModalModule],
   exports: [WidgetSearchBarComponent, WidgetSearchBarButtonComponent],
 })
 export class SearchModule {}
