@@ -11,10 +11,16 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./search-result-list.component.scss'],
 })
 export class SearchResultListComponent implements OnInit {
-  constructor(public searchService: SearchService, private modalService: ModalService,
-    private modalModel: ModalModule) {}
+  topicTitle: string;
+  topicDescription: string;
 
-  ngOnInit(): void {}
+  constructor(public searchService: SearchService, private modalService: ModalService,
+    private modalModel: ModalModule) {
+    }
+
+  ngOnInit(): void {
+    
+  }
 
   showClassTopics(id: string){
     console.log(id);
@@ -24,9 +30,13 @@ export class SearchResultListComponent implements OnInit {
 
   openModal(id: string) {
     this.modalService.open(id);
+    this.topicDescription = "";
+    this.topicTitle = "";
   }
 
   closeModal(id: string) {
     this.modalService.close(id);
+    this.topicDescription = "";
+    this.topicTitle = "";
 }
 }

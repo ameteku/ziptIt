@@ -23,6 +23,8 @@
 					</div>
 					<jw-modal id="AddTopic">
 						<h1>Add Topic</h1>
+						<p>Title: <input type="text" [(ngModel)]="topicTitle" placeholder="title" /></p>
+						<p>Description: <input type="text" [(ngModel)]="topicDescription" placeholder="description" /></p>
 						<button style="margin-right: 20px" (click)="closeModal('AddTopic');">Close</button>
 					</jw-modal>
 
