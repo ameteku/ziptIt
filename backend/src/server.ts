@@ -5,7 +5,7 @@ import checkKeys from './constants/keysChecker';
 import DataRoutes from './routes/data.routes';
 import bodyParser from 'body-parser';
 import sendErrorMessage from './constants/sendErrorMessage';
-import { getCookie } from './constants/cookieGetter';
+import  getCookie from './constants/cookieGetter';
 const cors = require('cors');
 const server = express();
 
@@ -73,7 +73,7 @@ server.post('/register', (req, res) => {
 server.post('/add/:objectType', async (req, res) => {
     const objectType = req.params.objectType;
     const body = req.body;
-    const cookie = getCookie(req)[1];
+    const cookie = getCookie(req)[0][1];
 
     if (!userRoutes.isLoggedInUser(cookie)) {
         sendErrorMessage(res, 404, "not logged in");
@@ -131,7 +131,7 @@ server.post('/add/:objectType', async (req, res) => {
 // send a rating value out of 5, linkid, user account
 server.post('/add-rating', async (req, res) => {
     const body = req.body;
-    const cookie = getCookie(req)[1];
+    const cookie = getCookie(req)[0][1];
     console.log(cookie);
     // checking for any wmissing items
     if (!cookie || !userRoutes.isLoggedInUser(cookie) || !body || !checkKeys(["rating", "linkId", "username"], Object.keys(body))) {
