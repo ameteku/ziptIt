@@ -10,9 +10,10 @@ import { HomeComponent } from './shared/home/home.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ModalModule } from './_modal';
 import { FormsModule } from '@angular/forms';
+import { TopicPageComponent } from './topic-page/topic-page.component';
 
 @NgModule({
-  declarations: [AppComponent, HeaderComponent, FooterComponent, HomeComponent],
+  declarations: [AppComponent, HeaderComponent, FooterComponent, HomeComponent, TopicPageComponent],
   imports: [BrowserModule, AppRoutingModule, SearchModule, BrowserAnimationsModule, ModalModule, FormsModule],
   providers: [],
   bootstrap: [AppComponent],
