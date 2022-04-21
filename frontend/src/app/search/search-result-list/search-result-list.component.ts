@@ -4,6 +4,7 @@ import { ModalService } from '../../_modal';
 import { ModalModule } from '../../_modal';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { ClassSearch } from '../ClassSearch';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
@@ -24,9 +25,9 @@ export class SearchResultListComponent implements OnInit {
   }
 
   showClassTopics(id: string){
-    console.log(id);
-    this.searchService.search(id, "topic");
-
+    // console.log(id);
+    // this.searchService.search(id, "topic");
+    this.searchService.options$ = this.searchService.search(id, "class") as Observable<ClassSearch[]>;
   }
 
   openModal(id: string) {

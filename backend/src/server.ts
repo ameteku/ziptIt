@@ -155,6 +155,7 @@ server.get('/:objectType/all/:parentId?', async (req, res) => {
     switch (objectType) {
         case "class":
             dataRoutes.getAllClasses().then(result => {
+                
                 res.send(result);
             }).catch(error => {
                 sendErrorMessage(res, 500, "An error occured getting classes: " + error);
