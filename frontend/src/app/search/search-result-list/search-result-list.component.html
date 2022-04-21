@@ -17,9 +17,14 @@
 						<p> Description: {{item.description}}</p>
 						<p>
 							<button (click)="showClassTopics(item.id)">Class Topics</button>
-							<app-widget-search-bar-button></app-widget-search-bar-button>
+							<br><br>
+							<button (click)="openModal('AddTopic')">Add Topic</button>
 						</p>
 					</div>
+					<jw-modal id="AddTopic">
+						<h1>Add Topic</h1>
+						<button style="margin-right: 20px" (click)="closeModal('AddTopic');">Close</button>
+					</jw-modal>
 
 				</div>
 

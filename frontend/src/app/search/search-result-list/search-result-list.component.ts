@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SearchService } from '../search.service';
+import { ModalService } from '../../_modal';
+import { ModalModule } from '../../_modal';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -9,7 +11,8 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./search-result-list.component.scss'],
 })
 export class SearchResultListComponent implements OnInit {
-  constructor(public searchService: SearchService) {}
+  constructor(public searchService: SearchService, private modalService: ModalService,
+    private modalModel: ModalModule) {}
 
   ngOnInit(): void {}
 
@@ -18,4 +21,12 @@ export class SearchResultListComponent implements OnInit {
     this.searchService.search(id, "topic");
 
   }
+
+  openModal(id: string) {
+    this.modalService.open(id);
+  }
+
+  closeModal(id: string) {
+    this.modalService.close(id);
+}
 }
