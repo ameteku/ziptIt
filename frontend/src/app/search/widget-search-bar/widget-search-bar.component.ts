@@ -27,7 +27,7 @@ export class WidgetSearchBarComponent implements OnInit {
       debounceTime(500),
       distinctUntilChanged(),
       switchMap((term) =>
-        term.length == 0 ? of([]) : this.searchService.search(term, '!topic')
+        term.length == 0 ? of([]) : this.searchService.search(term, 'class')
       )
     );
   }

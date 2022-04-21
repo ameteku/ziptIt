@@ -32,19 +32,28 @@ export class SearchService {
   isOptionsEmpty$: Observable<boolean>;
 
   search(q: string, flag: string,): Observable<(ClassTopic | ClassSearch)[]> {
+    let headers = {
+      headers: {
+          "Access-Control-Allow-Origin": "*"
+        }
+    };
     var temp;
     if (flag == 'topic'){
       console.log("test2");
 
       temp = "topic/all/"+ q;
       console.log(temp);
-      return this.http.get<ClassTopic[]>(this.SERVER_URL + temp);
+      return this.http.get<ClassTopic[]>(this.SERVER_URL + temp, {
+        ...headers
+      });
     }
     else{
       temp = "class/all";
     }
 
-    const result = this.http.get<ClassSearch[]>(this.SERVER_URL + temp);
+    const result = this.http.get<ClassSearch[]>(this.SERVER_URL + temp, {
+      ...headers
+    });
     return result.pipe(map(result => result.filter(resultItem => resultItem.title.length > q.length ? (resultItem.title.indexOf(q) != -1) : (q.indexOf(resultItem.title) != -1))));
   }
 
