@@ -50,7 +50,7 @@ export class WidgetSearchBarComponent implements OnInit {
   }
 
   onSubmit(f: NgForm) {
-    this.searchService.options$ = this.searchService.search(f.value.search, "!topic");
+    this.searchService.options$ = this.searchService.search(f.value.search, "class") as Observable<ClassSearch[]>;
 
     this.searchService.updateSelectedOption({
       id: null,

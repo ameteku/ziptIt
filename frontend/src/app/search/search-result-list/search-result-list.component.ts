@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { SearchService } from '../search.service';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { ClassSearch } from '../ClassSearch';
 
 @Component({
   selector: 'app-search-result-list',
@@ -14,8 +15,8 @@ export class SearchResultListComponent implements OnInit {
   ngOnInit(): void {}
 
   showClassTopics(id: string){
-    console.log(id);
-    this.searchService.search(id, "topic");
-
+    // console.log(id);
+    // this.searchService.search(id, "topic");
+    this.searchService.options$ = this.searchService.search(id, "class") as Observable<ClassSearch[]>;
   }
 }

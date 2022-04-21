@@ -4,14 +4,14 @@ import { Observable } from 'rxjs/internal/Observable';
 import { ClassTopic } from './ClassTopic';
 import { ClassSearch } from './ClassSearch';
 import { BehaviorSubject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { stringify } from 'querystring';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SearchService {
-  private SERVER_URL = 'http://localhost:3000/';
+  private SERVER_URL = 'http://zipit-backend.herokuapp.com/';
 
   constructor(private http: HttpClient) {}
 
@@ -31,24 +31,21 @@ export class SearchService {
 
   isOptionsEmpty$: Observable<boolean>;
 
-  search(q: string, flag: string): Observable<any> {
+  search(q: string, flag: string,): Observable<(ClassTopic | ClassSearch)[]> {
     var temp;
     if (flag == 'topic'){
       console.log("test2");
-      temp = "Topics?classId_like=" + q;
-      return this.http.get<ClassTopic[]>(this.SERVER_URL + temp + q);
+
+      temp = "topic/all/"+ q;
+      console.log(temp);
+      return this.http.get<ClassTopic[]>(this.SERVER_URL + temp);
     }
     else{
-      temp = "Classes?title_like=";
+      temp = "class/all";
     }
-    return this.http.get<ClassSearch[]>(
-      this.SERVER_URL + temp + q,
-      {
-        headers: {
-          "Access-Control-Allow-Origin": "GET, POST, PUT, DELETE, OPTIONS",
-        }
-      }
-    );
+
+    const result = this.http.get<ClassSearch[]>(this.SERVER_URL + temp);
+    return result.pipe(map(result => result.filter(resultItem => resultItem.title.length > q.length ? (resultItem.title.indexOf(q) != -1) : (q.indexOf(resultItem.title) != -1))));
   }
 
   updateSelectedOption(option: ClassSearch) {

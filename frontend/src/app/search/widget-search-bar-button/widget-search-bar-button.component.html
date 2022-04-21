@@ -1,5 +1,6 @@
 <form class="form-inline my-2 my-lg-0" #f="ngForm" (ngSubmit)="onSubmit(f)">
 	<input class="form-control mr-sm-2" type="search" name="search" ngModel placeholder="Search Topic" aria-label="Search">
+	<input hidden  type="text" name="parent-classid" ngModel placeholder="parent-class-id">
 	<br><br><br>
 	<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
 </form>
