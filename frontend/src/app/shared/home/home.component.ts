@@ -9,6 +9,7 @@ import { User } from '../header/SignIn';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+  imageSrc = 'assets/akron.png';
   title: string;
   addClassURL: string;
   passwordMatch: boolean = false;
