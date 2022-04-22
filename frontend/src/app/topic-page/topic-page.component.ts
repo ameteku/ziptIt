@@ -19,6 +19,9 @@ export class TopicPageComponent implements OnInit {
   results: TopicResult;
   topicTitle: string;
   topicDescription: string;
+  linkTitle: string;
+  linkDescription: string;
+  actualLink: string;
   links: [];
 
   constructor(private _Activatedroute:ActivatedRoute, private _router:Router, private http: HttpClient, private modalService: ModalService) { 
@@ -62,12 +65,23 @@ export class TopicPageComponent implements OnInit {
     this.modalService.close(id);
     this.topicTitle = "";
     this.topicDescription = "";
+    this.linkTitle = "";
+    this.actualLink = "";
+    this.linkDescription = "";
   }
 
   openModal(id: string){
     this.modalService.open(id);
     this.topicTitle = "";
     this.topicDescription = "";
+    this.linkDescription = "";
+    this.linkTitle = "";
+    this.actualLink = "";
+  }
+
+  addLink(classId: string, topicId: string){
+    console.log(classId);
+    console.log(topicId);
   }
 
 }
