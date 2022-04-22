@@ -1,4 +1,4 @@
-import { User } from "../models/user.model";
+import { User, UserAuthCookie } from "../models/user.model";
 import DBConnector from "../services/dbConnector.service";
 import UserService from "../services/users.service";
 
@@ -77,5 +77,21 @@ export default class UserRoutes {
             id = email.substring(0, email.search('@'));
         }
         return id;
+    }
+
+    createCookie(username: string) {
+
+        let newCookieHash = '~';
+
+        while (newCookieHash.length < 20) {
+            newCookieHash += Math.random() * 10 + Math.random() * (-10);
+        }
+        const newCookie: UserAuthCookie = {
+            zipAuthHash: newCookieHash,
+            expires: new Date(Date.now() + 900000000),
+            username,
+        }
+
+        return newCookie;
     }
 }
