@@ -41,7 +41,7 @@
                     </jw-modal>
                 </tr>
                 <tr>
-                    <td> <button style="margin-right: 20px" class="button-21" (click)="openModal('AddLink')">Add Link</button></td>
+                    <td> <button *ngIf="appCom.loggedIn" style="margin-right: 20px" class="button-21" (click)="openModal('AddLink')">Add Link</button></td>
                     <td></td>
                     <td></td>
                 </tr>
@@ -52,6 +52,6 @@
         <br><br>
         <div style="display: inline-block">
             <button  style="margin-right: 20px" class="button-21"(click)="onBack()">Back</button>
-            <button class="button-21" (click)="openModal('AddTopic')">Add Topic</button>
+            <button *ngIf="appCom.loggedIn" class="button-21" (click)="openModal('AddTopic')">Add Topic</button>
         </div>
  </div>

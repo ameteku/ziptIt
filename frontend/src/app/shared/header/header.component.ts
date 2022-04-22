@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { ModalService } from 'src/app/_modal';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from './SignIn';
+import { emit } from 'process';
+import { AppComponent } from 'src/app/app.component';
 
 @Component({
   selector: 'app-header',
@@ -9,6 +11,9 @@ import { User } from './SignIn';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
+
+@Output() public getAuthStatusChange = new EventEmitter<boolean>();
+
   httpOptions;
   username: string;
   password: string;
@@ -25,7 +30,7 @@ export class HeaderComponent implements OnInit {
   description: string;
 
 
-  constructor(private modalService: ModalService, private http: HttpClient) {
+  constructor(private modalService: ModalService, private http: HttpClient, public appCom: AppComponent) {
     this.httpOptions = {
       headers: new HttpHeaders({
         "Access-Control-Allow-Origin": "GET, POST, PUT, DELETE, OPTIONS",
@@ -35,6 +40,7 @@ export class HeaderComponent implements OnInit {
    }
 
   ngOnInit(): void {
+    this.appCom.isAuthObs.subscribe(loggedIn => this.loggedIn = loggedIn);
     this.username = "";
     this.password = "";
     this.firstname = "";
@@ -66,10 +72,12 @@ signIn(){
     next: data => {
       if(data.accessLevel[0] == "Regular"){
         alert("Regular user logged in");
+        this.getAuthStatusChange.emit(true);
         this.loggedIn = true;
      }
      else if(data.accessLevel[0] == "Admin"){
        alert("Admin user logged in");
+       this.getAuthStatusChange.emit(true);
        this.loggedIn = true;
        this.isAdmin = true;
      }
@@ -121,6 +129,7 @@ signUp(){
 }
 
   logout(){
+    this.getAuthStatusChange.emit(false);
     this.closeModal("logout");
     this.loggedIn = false;
     this.isAdmin = false;

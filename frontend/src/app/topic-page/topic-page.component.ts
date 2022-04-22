@@ -3,6 +3,7 @@ import { ActivatedRoute, Router} from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { TopicResult } from './TopicResult';
 import { ModalService } from '../_modal';
+import { AppComponent } from '../app.component';
 
 @Component({
   selector: 'app-topic-page',
@@ -24,7 +25,7 @@ export class TopicPageComponent implements OnInit {
   actualLink: string;
   links: [];
 
-  constructor(private _Activatedroute:ActivatedRoute, private _router:Router, private http: HttpClient, private modalService: ModalService) { 
+  constructor(private _Activatedroute:ActivatedRoute, private _router:Router, private http: HttpClient, private modalService: ModalService, public appCom: AppComponent) { 
     this.sub=this._Activatedroute.paramMap.subscribe(params => { 
       console.log(params);
        this.id = params.get('id'); 
