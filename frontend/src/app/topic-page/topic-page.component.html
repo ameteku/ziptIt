@@ -1,11 +1,14 @@
 <div class="jumbotron mt-4">
-    <h1>Topics page</h1>
+    <h1>{{classTitle}} Topics</h1>
     <h2>
        <div *ngFor="let topic of results" style="display: inline-block">
            <button style="margin: 50px;"(click)="test()">{{topic.title}}</button>
        </div>
     </h2>
     <h3>
-        <button (click)="onBack()">Back</button>
+        <div style="display: inline-block">
+            <button style="margin: 25px"(click)="onBack()">Back</button>
+            <button (click)="addTopic()">Add Topic</button>
+        </div>
     </h3>
  </div>
