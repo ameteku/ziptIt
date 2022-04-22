@@ -54,6 +54,7 @@ export class SearchService {
     const result = this.http.get<ClassSearch[]>(this.SERVER_URL + temp, {
       ...headers
     });
+    console.log(result);
     return result.pipe(map(result => result.filter(resultItem => resultItem.title.length > q.length ? (resultItem.title.indexOf(q) != -1) : (q.indexOf(resultItem.title) != -1))));
   }
 
