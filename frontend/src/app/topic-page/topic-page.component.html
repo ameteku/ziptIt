@@ -3,12 +3,19 @@
     <h2>
        <div *ngFor="let topic of results" style="display: inline-block">
            <button style="margin: 50px;"(click)="test()">{{topic.title}}</button>
+           <jw-modal id="AddTopic">
+            <h1>Add Topic</h1>
+            <p>Title: <input type="text" [(ngModel)]="topicTitle" placeholder="title" /></p>
+            <p>Description: <input type="text" [(ngModel)]="topicDescription" placeholder="description" /></p>
+            <button style="margin-right: 20px" (click)="addTopic(topic.classId)">Add Topic</button>
+            <button (click)="closeModal('AddTopic');">Close</button>
+        </jw-modal>
        </div>
     </h2>
     <h3>
         <div style="display: inline-block">
             <button style="margin: 25px"(click)="onBack()">Back</button>
-            <button (click)="addTopic()">Add Topic</button>
+            <button (click)="openModal('AddTopic')">Add Topic</button>
         </div>
     </h3>
  </div>

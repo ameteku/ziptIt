@@ -54,6 +54,8 @@ export class HomeComponent implements OnInit {
     this.lastname = "";
     this.confirmPassword = "";
     this.email = "";
+    this.title = "";
+    this.description = "";
 }
 
 closeModal(id: string) {
