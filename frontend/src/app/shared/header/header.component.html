@@ -12,7 +12,8 @@
 						<div class="mr-auto" style="width: 100%;">
 						</div>
 					</div>
-					<div class="col-12" style="margin-left: 700px;">
+					<div class="col-12" style="text-align: right;">
+						<button *ngIf="isAdmin" style="margin-right: 20px;"class="button-21" (click)="openModal('AddClass')">Add Class</button>
 						<button style="margin-right: 20px;"class="button-21" (click)="openModal('SignIn')">Sign in</button>
 						<button style="margin-right: 20px;" class="button-21" (click)="openModal('SignUp')">Sign up</button>
 						<button *ngIf="loggedIn" style="margin-right: 20px;"class="button-21" (click)="openModal('logout')">Logout</button>
@@ -51,6 +52,13 @@
 									<button class="button-21" (click)="closeModal('logout')">Cancel</button>
 								</div>
 							</div>
+						</jw-modal>
+						<jw-modal id="AddClass">
+							<h1>Add Class</h1>
+							<p>Class: <input type="text" [(ngModel)]="title" placeholder="Enter a title" /></p>
+							<p>Description: <input type="text" [(ngModel)]="description" placeholder="Enter description" /></p>
+							<button style="margin-right: 20px" (click)="closeModal('AddClass');">Close</button>
+							<button (click)="addClass()">Add Class</button>
 						</jw-modal>
 					</div>
 				</nav>

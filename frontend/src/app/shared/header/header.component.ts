@@ -20,6 +20,9 @@ export class HeaderComponent implements OnInit {
   isAdmin: boolean = false;
   signupURL: string = 'https://zipit-backend.herokuapp.com/register';
   loginURL: string = 'https://zipit-backend.herokuapp.com/login';
+  addClassUrl: string = 'https://zipit-backend.herokuapp.com/add/class';
+  title:string;
+  description: string;
 
 
   constructor(private modalService: ModalService, private http: HttpClient) {
@@ -122,6 +125,20 @@ signUp(){
     this.loggedIn = false;
     this.isAdmin = false;
     alert("User has been logged out");
+  }
+
+  addClass(){
+    this.http.post<User>(this.addClassUrl, {"title": this.title, "description": this.description}).subscribe({
+      next: data => {
+        alert("Class added!");
+        this.title="";
+        this.description="";
+    }, 
+    error: error => {
+      console.error('There was an error!', error);
+      alert("There was an error class could not be added");
+  }
+    });
   }
 
 }
