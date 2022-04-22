@@ -7,7 +7,7 @@ import { TopicPageComponent } from './topic-page/topic-page.component';
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'home', component: HomeComponent },
-  { path: 'topics/:id', component: TopicPageComponent },
+  { path: 'topics/:id/:title', component: TopicPageComponent },
 ];
 
 @NgModule({

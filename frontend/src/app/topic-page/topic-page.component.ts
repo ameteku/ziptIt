@@ -11,6 +11,7 @@ import { TopicResult } from './TopicResult';
 export class TopicPageComponent implements OnInit {
   url = 'https://zipit-backend.herokuapp.com/topic/all/';
   className: string;
+  classTitle: string;
   id: string;
   sub;
   results: TopicResult;
@@ -18,7 +19,8 @@ export class TopicPageComponent implements OnInit {
   constructor(private _Activatedroute:ActivatedRoute, private _router:Router, private http: HttpClient) { 
     this.sub=this._Activatedroute.paramMap.subscribe(params => { 
       console.log(params);
-       this.id = params.get('id');    
+       this.id = params.get('id'); 
+       this.classTitle = params.get('title');   
    });
   }
 
@@ -35,6 +37,10 @@ export class TopicPageComponent implements OnInit {
 
   test(){
     console.log("test");
+  }
+
+  addTopic(){
+
   }
 
 }
