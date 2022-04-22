@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router} from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { TopicResult } from './TopicResult';
 import { ModalService } from '../_modal';
 import { AppComponent } from '../app.component';
@@ -13,6 +13,7 @@ import { AppComponent } from '../app.component';
 export class TopicPageComponent implements OnInit {
   url = 'https://zipit-backend.herokuapp.com/topic/all/';
   linkurl = 'https://zipit-backend.herokuapp.com/link/all/';
+  postLink = 'https://zipit-backend.herokuapp.com/add/link/';
   className: string;
   classTitle: string;
   id: string;
@@ -23,6 +24,7 @@ export class TopicPageComponent implements OnInit {
   linkTitle: string;
   linkDescription: string;
   actualLink: string;
+  httpOptions;
   links: [];
 
   constructor(private _Activatedroute:ActivatedRoute, private _router:Router, private http: HttpClient, private modalService: ModalService, public appCom: AppComponent) { 
@@ -31,6 +33,12 @@ export class TopicPageComponent implements OnInit {
        this.id = params.get('id'); 
        this.classTitle = params.get('title');   
    });
+   this.httpOptions = {
+    headers: new HttpHeaders({
+      "Access-Control-Allow-Origin": "GET, POST, PUT, DELETE, OPTIONS",
+    }),
+    observe: 'response',
+    };
   }
 
   ngOnInit(): void {
@@ -81,8 +89,38 @@ export class TopicPageComponent implements OnInit {
   }
 
   addLink(classId: string, topicId: string){
-    console.log(classId);
-    console.log(topicId);
+    var body = {
+      "classId": classId,
+      "topicId": topicId,
+      "link": this.actualLink,
+      "title": this.linkTitle,
+      "description": this.linkDescription
+    };
+    console.log(body);
+    this.http.post<any>("https://zipit-backend.herokuapp.com/add/link/", body, this.httpOptions).subscribe({
+      next: data => {
+        alert("Link added!");
+        this.linkTitle="";
+        this.linkDescription="";
+        this.actualLink="";
+      },
+      error: error => {
+        console.error('There was an error!', error);
+        alert('There was an error Link could not be added');
+      }
+      
+    });
   }
+
+//   this.http.post<User>(this.addClassURL, {"title": this.title, "description": this.description}).subscribe({
+//     next: data => {
+//       alert("Class added!");
+//       this.title="";
+//       this.description="";
+//   }, 
+//   error: error => {
+//     console.error('There was an error!', error);
+//     alert("There was an error class could not be added");
+// }
 
 }
