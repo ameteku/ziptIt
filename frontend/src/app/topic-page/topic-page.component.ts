@@ -19,6 +19,7 @@ export class TopicPageComponent implements OnInit {
   results: TopicResult;
   topicTitle: string;
   topicDescription: string;
+  links: [];
 
   constructor(private _Activatedroute:ActivatedRoute, private _router:Router, private http: HttpClient, private modalService: ModalService) { 
     this.sub=this._Activatedroute.paramMap.subscribe(params => { 
@@ -29,6 +30,7 @@ export class TopicPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.links = null;
     var newUrl = this.url + this.id;
     this.http.get<any>(newUrl).subscribe(data => {
       this.results = data;
@@ -39,10 +41,9 @@ export class TopicPageComponent implements OnInit {
     this._router.navigate(['/search-results-list']);
   }
 
-  test(topicId: string){
+  getLinks(topicId: string){
     this.http.get<any>(this.linkurl + topicId).subscribe(data => {
-      console.log(topicId);
-      console.log(data);
+      this.links = data;
     });
   }
 
