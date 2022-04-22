@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalService } from '../../_modal';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { User } from './SignIn';
+import { User } from '../header/SignIn';
 
 @Component({
   selector: 'app-home',

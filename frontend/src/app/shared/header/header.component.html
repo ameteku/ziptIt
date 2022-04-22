@@ -15,7 +15,7 @@
 					<div class="col-12" style="margin-left: 700px;">
 						<button style="margin-right: 20px;"class="button-21" (click)="openModal('SignIn')">Sign in</button>
 						<button style="margin-right: 20px;" class="button-21" (click)="openModal('SignUp')">Sign up</button>
-						<button style="margin-right: 20px;"class="button-21" (click)="openModal('logout')">Logout</button>
+						<button *ngIf="loggedIn" style="margin-right: 20px;"class="button-21" (click)="openModal('logout')">Logout</button>
 
 						<jw-modal id="SignIn">
 							<div style="text-align: center;">
@@ -47,7 +47,7 @@
 							<br>
 							<p>
 								<div style="display:inline-block">
-									<button style="margin-right: 20px" class="button-21">Yes</button>
+									<button style="margin-right: 20px" class="button-21" (click)="logout()">Yes</button>
 									<button class="button-21" (click)="closeModal('logout')">Cancel</button>
 								</div>
 							</div>
