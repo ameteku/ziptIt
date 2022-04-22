@@ -22,6 +22,7 @@
                     <th>Title</th>
                     <th>Description</th>
                     <th>Link</th>
+                    <th>Ratings</th>
                 </tr>
             </thead>
             <tbody>
@@ -29,6 +30,8 @@
                     <td>{{i.title}}</td>
                     <td>{{i.description}}</td>
                     <td><a href="{{i.actualLink}}" target="_blank">{{i.title}}</a></td>
+                    <td>{{calcRating(i.ratings.ratings)}}</td>
+                    
                     <jw-modal id="AddLink">
                         <div style="text-align:center">
                             <h1>Add Link</h1>

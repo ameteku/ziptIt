@@ -4,6 +4,10 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { TopicResult } from './TopicResult';
 import { ModalService } from '../_modal';
 import { AppComponent } from '../app.component';
+import * as internal from 'events';
+import { NumberValueAccessor } from '@angular/forms';
+import { CommonModule } from '@angular/common';  
+import { BrowserModule } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-topic-page',
@@ -56,6 +60,7 @@ export class TopicPageComponent implements OnInit {
   getLinks(topicId: string){
     this.http.get<any>(this.linkurl + topicId).subscribe(data => {
       this.links = data;
+      console.log(data);
     });
   }
 
@@ -123,15 +128,14 @@ export class TopicPageComponent implements OnInit {
     });
   }
 
-//   this.http.post<User>(this.addClassURL, {"title": this.title, "description": this.description}).subscribe({
-//     next: data => {
-//       alert("Class added!");
-//       this.title="";
-//       this.description="";
-//   }, 
-//   error: error => {
-//     console.error('There was an error!', error);
-//     alert("There was an error class could not be added");
-// }
-
+  calcRating(param: any): any{
+    if (param.length == 0){
+      return "no ratings";
+    }
+    var total: number = 0;
+    for(let i=0; i < param.length; i++){
+      total += parseInt(param[i]);
+    }
+    return total / param.length;
+  }
 }
