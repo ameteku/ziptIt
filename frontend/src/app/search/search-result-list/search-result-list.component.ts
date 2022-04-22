@@ -41,15 +41,4 @@ export class SearchResultListComponent implements OnInit {
     this.topicDescription = "";
     this.topicTitle = "";
   }
-
-  addTopic(classID: string){
-    var URL = 'https://zipit-backend.herokuapp.com/add/topic';
-    var body = {
-      "title": this.topicTitle,
-      "description": this.topicDescription,
-      "class_id": classID
-    };
-    this.closeModal('AddTopic');
-    this.http.post(URL, body);
-  }
 }

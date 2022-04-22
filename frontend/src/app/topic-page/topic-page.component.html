@@ -1,14 +1,61 @@
-<div class="jumbotron mt-4">
-    <h1>{{classTitle}} Topics</h1>
+<div class="jumbotron mt-4" style="text-align:center">
+    <h1 style="text-align:left">{{classTitle}} Topics</h1>
     <h2>
-       <div *ngFor="let topic of results" style="display: inline-block">
-           <button style="margin: 50px;"(click)="test()">{{topic.title}}</button>
+       <div *ngFor="let topic of results" style="display: inline-block; text-align: center;">
+           <button class="button-21" style="margin: 50px;"(click)="getLinks(topic.id)">{{topic.title}}</button>
+           <jw-modal id="AddTopic">
+               <div style="text-align:center">
+                <h1>Add Topic</h1>
+                <p>Title: <input type="text" [(ngModel)]="topicTitle" placeholder="title" /></p>
+                <p>Description: <input type="text" [(ngModel)]="topicDescription" placeholder="description" /></p>
+                <button class="button-21"style="margin-right: 20px"(click)="closeModal('AddTopic');">Close</button>
+                <button class="button-21"style="margin-right: 20px" (click)="addTopic(topic.classId)">Add Topic</button>
+            </div>
+        </jw-modal>
        </div>
     </h2>
-    <h3>
-        <div style="display: inline-block">
-            <button style="margin: 25px"(click)="onBack()">Back</button>
-            <button (click)="addTopic()">Add Topic</button>
+    <p>
+        <div *ngIf="links != null">
+            <table id="links">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Link</th>
+                    <th>Ratings</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let i of links">
+                    <td>{{i.title}}</td>
+                    <td>{{i.description}}</td>
+                    <td><a href="{{i.actualLink}}" target="_blank">{{i.title}}</a></td>
+                    <td>{{calcRating(i.ratings.ratings)}}</td>
+                    
+                    <jw-modal id="AddLink">
+                        <div style="text-align:center">
+                            <h1>Add Link</h1>
+                            <p>Title: <input type="text" [(ngModel)]="linkTitle" placeholder="title" /></p>
+                            <p>Description: <input type="text" [(ngModel)]="linkDescription" placeholder="description" /></p>
+                            <p>Link: <input type="text" [(ngModel)]="actualLink" placeholder="link" /></p>
+                            <button class="button-21"style="margin-right: 20px"(click)="closeModal('AddLink');">Close</button>
+                            <button class="button-21"style="margin-right: 20px" (click)="addLink(i.classId, i.topicId)">Add Link</button>
+                        </div>
+                    </jw-modal>
+                </tr>
+                <tr *ngIf="appCom.loggedIn" >
+                    <td> <button style="margin-right: 20px" class="button-21"style (click)="openModal('AddLink')">Add Link</button></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+          </table>
         </div>
-    </h3>
+    <p>
+        <br><br>
+        <div style="display: inline-block">
+            <button  style="margin-right: 20px" class="button-21"(click)="onBack()">Back</button>
+            <button *ngIf="appCom.loggedIn" class="button-21" (click)="openModal('AddTopic')">Add Topic</button>
+        </div>
  </div>

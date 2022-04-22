@@ -1,17 +1,65 @@
 <header class="bg-light">
 	<div class="container">
 		<div class="row">
-			<div class="col-12">
+			<div class="col-12" style="overflow:hidden">
 				<nav class="navbar navbar-expand-lg navbar-light">
 					<a class="navbar-brand" [routerLink]="['/home']">ZipIt</a>
 					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
 							aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 						<span class="navbar-toggler-icon"></span>
 					</button>
-
 					<div class="collapse navbar-collapse" id="navbarSupportedContent">
 						<div class="mr-auto" style="width: 100%;">
 						</div>
+					</div>
+					<div class="col-12" style="text-align: right;">
+						<button *ngIf="isAdmin" style="margin-right: 20px;"class="button-21" (click)="openModal('AddClass')">Add Class</button>
+						<button style="margin-right: 20px;"class="button-21" (click)="openModal('SignIn')">Sign in</button>
+						<button style="margin-right: 20px;" class="button-21" (click)="openModal('SignUp')">Sign up</button>
+						<button *ngIf="loggedIn" style="margin-right: 20px;"class="button-21" (click)="openModal('logout')">Logout</button>
+
+						<jw-modal id="SignIn">
+							<div style="text-align: center;">
+							<h1>Sign In</h1>
+							<p>Username: <input type="text" [(ngModel)]="username" placeholder="username" /></p>
+							<p>Password: <input id="pass" type="password" [(ngModel)]="password" placeholder="password"/></p>
+							<button class="button-21"style="margin-right: 20px" (click)="closeModal('SignIn');">Close</button>
+							<button class="button-21"(click)="signIn();">Sign In</button>
+							</div>
+						</jw-modal>
+
+						<jw-modal id ="SignUp"> 
+							<div style="text-align: center;">
+							<h1>Sign Up</h1>
+							<p>First name: <input type="text" [(ngModel)]="firstname" placeholder="first name"/></p>
+							<p>Last name: <input type="text" [(ngModel)]="lastname" placeholder="last name"/></p>
+							<p>Username: <input type="text" [(ngModel)]="username" placeholder="user name" /></p>
+							<p>Email: <input type="text" [(ngModel)]="email" placeholder="Email"/></p>
+							<p>Password: <input type="password" [(ngModel)]="password" placeholder="password"/></p>
+							<p>Confirm Password: <input type="password" [(ngModel)]="confirmPassword" placeholder="confirm password" /></p>
+							<button class="button-21"style="margin-right: 20px" (click)="closeModal('SignUp');">Close</button>
+							<button class="button-21"(click)="signUp();">Sign Up</button>
+							</div>
+						</jw-modal>
+
+						<jw-modal id ="logout">
+							<div style="text-align: center;">
+							<h3>Are you sure?</h3>
+							<br>
+							<p>
+								<div style="display:inline-block">
+									<button style="margin-right: 20px" class="button-21" (click)="logout()">Yes</button>
+									<button class="button-21" (click)="closeModal('logout')">Cancel</button>
+								</div>
+							</div>
+						</jw-modal>
+						<jw-modal id="AddClass">
+							<h1>Add Class</h1>
+							<p>Class: <input type="text" [(ngModel)]="title" placeholder="Enter a title" /></p>
+							<p>Description: <input type="text" [(ngModel)]="description" placeholder="Enter description" /></p>
+							<button class="button-21" style="margin-right: 20px" (click)="closeModal('AddClass');">Close</button>
+							<button class="button-21" (click)="addClass()">Add Class</button>
+						</jw-modal>
 					</div>
 				</nav>
 			</div>

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalService } from '../../_modal';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { User } from './SignIn';
+import { User } from '../header/SignIn';
 
 @Component({
   selector: 'app-home',
@@ -9,6 +9,7 @@ import { User } from './SignIn';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+  imageSrc = 'assets/akron.png';
   title: string;
   addClassURL: string;
   passwordMatch: boolean = false;
@@ -54,6 +55,8 @@ export class HomeComponent implements OnInit {
     this.lastname = "";
     this.confirmPassword = "";
     this.email = "";
+    this.title = "";
+    this.description = "";
 }
 
 closeModal(id: string) {
