@@ -2,7 +2,7 @@
     <h1>{{classTitle}} Topics</h1>
     <h2>
        <div *ngFor="let topic of results" style="display: inline-block">
-           <button style="margin: 50px;"(click)="test()">{{topic.title}}</button>
+           <button class="button-21" style="margin: 50px;"(click)="test()">{{topic.title}}</button>
            <jw-modal id="AddTopic">
             <h1>Add Topic</h1>
             <p>Title: <input type="text" [(ngModel)]="topicTitle" placeholder="title" /></p>
@@ -15,7 +15,7 @@
     <h3>
         <div style="display: inline-block">
             <button style="margin: 25px"(click)="onBack()">Back</button>
-            <button (click)="openModal('AddTopic')">Add Topic</button>
+            <button class="button-21" (click)="openModal('AddTopic')">Add Topic</button>
         </div>
     </h3>
  </div>
