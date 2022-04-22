@@ -11,6 +11,7 @@ import { ModalService } from '../_modal';
 })
 export class TopicPageComponent implements OnInit {
   url = 'https://zipit-backend.herokuapp.com/topic/all/';
+  linkurl = 'https://zipit-backend.herokuapp.com/link/all/';
   className: string;
   classTitle: string;
   id: string;
@@ -38,8 +39,11 @@ export class TopicPageComponent implements OnInit {
     this._router.navigate(['/search-results-list']);
   }
 
-  test(){
-    console.log("test");
+  test(topicId: string){
+    this.http.get<any>(this.linkurl + topicId).subscribe(data => {
+      console.log(topicId);
+      console.log(data);
+    });
   }
 
   addTopic(classID: string){
