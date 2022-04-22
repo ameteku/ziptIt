@@ -66,8 +66,19 @@ export class TopicPageComponent implements OnInit {
       "description": this.topicDescription,
       "class_id": classID
     };
-    this.closeModal('addTopic');
-    this.http.post(URL, body);
+    this.closeModal('AddTopic');
+    this.http.post<any>(URL, body).subscribe({
+      next: data => {
+        alert("Topic added!");
+        this.topicTitle="";
+        this.topicDescription="";
+      },
+      error: error => {
+        console.error('There was an error!', error);
+        alert('There was an error Topic could not be added');
+      }
+      
+    });
   }
 
   closeModal(id: string){

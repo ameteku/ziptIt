@@ -40,8 +40,8 @@
                         </div>
                     </jw-modal>
                 </tr>
-                <tr>
-                    <td> <button *ngIf="appCom.loggedIn" style="margin-right: 20px" class="button-21" (click)="openModal('AddLink')">Add Link</button></td>
+                <tr *ngIf="appCom.loggedIn" >
+                    <td> <button style="margin-right: 20px" class="button-21"style (click)="openModal('AddLink')">Add Link</button></td>
                     <td></td>
                     <td></td>
                 </tr>
