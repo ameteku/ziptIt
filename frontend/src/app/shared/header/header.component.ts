@@ -32,11 +32,12 @@ export class HeaderComponent implements OnInit {
 
   constructor(private modalService: ModalService, private http: HttpClient, public appCom: AppComponent) {
     this.httpOptions = {
-      headers: new HttpHeaders({
-        "Access-Control-Allow-Origin": "GET, POST, PUT, DELETE, OPTIONS",
-      }),
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+      },
       observe: 'response',
-  };
+      withCredentials: true, 
+    };
    }
 
   ngOnInit(): void {
@@ -69,7 +70,7 @@ closeModal(id: string) {
 
 signIn(){
   this.http.post<User>(this.loginURL, {"username": this.username, "password": this.password}).subscribe({
-    next: data => {
+    next:  data => {
       if(data.accessLevel[0] == "Regular"){
         alert("Regular user logged in");
         this.getAuthStatusChange.emit(true);
@@ -97,7 +98,9 @@ signUp(){
       this.confirmPassword = "";
     }
 
-    this.http.post<User>(this.loginURL, {"username": this.username, "password": this.password}).subscribe({
+    this.http.post<User>(this.loginURL, {"username": this.username, "password": this.password}, {
+      withCredentials: true
+    }).subscribe({
       next: data => {
         alert("User already exists!");
         this.firstname="";

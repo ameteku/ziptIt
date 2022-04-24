@@ -55,7 +55,7 @@ server.post('/register', (req, res) => {
     if (checkKeys(["username", "password", "email"], Object.keys(req.body))) {
 
         userRoutes.registerUser(req.body).then(result => {
-            res.cookie("userAuth", result.cookie.zipAuthHash, { expires: result.cookie.expires, httpOnly: true }).send(result.userDetails);
+            res.cookie("userAuth", result.cookie.zipAuthHash, { expires: result.cookie.expires, httpOnly: false }).send(result.userDetails);
         }).
             catch(error => {
                 console.log("Error registering in:", error);
