@@ -75,7 +75,7 @@ server.post('/add/:objectType', async (req, res) => {
     const objectType = req.params.objectType;
     const body = req.body;
     const cookie = getCookie(req)[0][1];
-
+        console.log(cookie, " <<<< cookie")
     if (!userRoutes.isLoggedInUser(cookie)) {
         sendErrorMessage(res, 404, "not logged in");
         return;
