@@ -3,7 +3,6 @@ import DBConnector from './services/dbConnector.service';
 import UserRoutes from './routes/users.routes';
 import checkKeys from './constants/keysChecker';
 import DataRoutes from './routes/data.routes';
-import bodyParser from 'body-parser';
 import sendErrorMessage from './constants/sendErrorMessage';
 import  getCookie from './constants/cookieGetter';
 const cors = require('cors');
@@ -12,7 +11,8 @@ const server = express();
 server.use(express.urlencoded());
 server.use(express.json());
 server.use(cors({
-    origin: '*'
+    origin: 'http://localhost:4200',
+    credentials: true
 }));
 
 // loading connector
@@ -24,14 +24,15 @@ server.get('/', (req, res) => {
     res.send("Hiiii success my boy");
 });
 
-server.post('/login', (req, res) => {
+server.post('/login', (req, res, next) => {
     console.log(typeof req.body);
 
     if (checkKeys(["username", "password"], Object.keys(req.body))) {
 
         userRoutes.loginUser(req.body).then(result => {
 
-            res.cookie("userAuth", result.cookie.zipAuthHash, { expires: result.cookie.expires, httpOnly: true }).send(result.userDetails);
+            res.cookie("userAuth", result.cookie.zipAuthHash, { expires: result.cookie.expires, httpOnly: true, sameSite: }).send(result.userDetails);
+            next();
         }).
             catch(error => {
                 console.log("Error logging in:", error);
@@ -55,7 +56,7 @@ server.post('/register', (req, res) => {
     if (checkKeys(["username", "password", "email"], Object.keys(req.body))) {
 
         userRoutes.registerUser(req.body).then(result => {
-            res.cookie("userAuth", result.cookie.zipAuthHash, { expires: result.cookie.expires, httpOnly: false }).send(result.userDetails);
+            res.cookie("userAuth", result.cookie.zipAuthHash, { expires: result.cookie.expires, httpOnly: false, signed: true }).send(result.userDetails);
         }).
             catch(error => {
                 console.log("Error registering in:", error);

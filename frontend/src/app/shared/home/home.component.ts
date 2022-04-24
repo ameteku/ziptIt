@@ -33,7 +33,9 @@ export class HomeComponent implements OnInit {
         "Access-Control-Allow-Origin": "GET, POST, PUT, DELETE, OPTIONS",
       }),
       observe: 'response',
-  };
+      withCredentials: true,
+      crossDomain: true 
+    };
    }
 
   ngOnInit(): void {
@@ -69,7 +71,9 @@ signIn(){
   console.log(this.username);
   console.log(this.password);
 
-  this.http.post<User>(this.loginURL, {"username": this.username, "password": this.password}).subscribe({
+  this.http.post<User>(this.loginURL, {"username": this.username, "password": this.password},
+   {...this.httpOptions}
+    ).subscribe({
     next: data => {
       if(data.accessLevel[0] == "Regular"){
         alert("Regular user logged in");
@@ -94,7 +98,9 @@ signUp(){
     this.confirmPassword = "";
   }
 
-  this.http.post<User>(this.loginURL, {"username": this.username, "password": this.password}).subscribe({
+  this.http.post<User>(this.loginURL, {"username": this.username, "password": this.password}, 
+   this.httpOptions
+  ).subscribe({
     next: data => {
       alert("User already exists!");
       this.firstname="";
