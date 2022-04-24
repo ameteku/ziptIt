@@ -72,12 +72,15 @@ signIn(){
   console.log(this.password);
 
   this.http.post<User>(this.loginURL, {"username": this.username, "password": this.password},
+  
    {...this.httpOptions}
     ).subscribe({
-    next: data => {
+    next: (data, ) => {
+      //@ts-ignore ts wierdly says data is not available because I am passing in headers? remove comment to see error 
       if(data.accessLevel[0] == "Regular"){
         alert("Regular user logged in");
      }
+    //@ts-ignore ts wierdly says data is not available because I am passing in headers? remove comment to see error 
      else if(data.accessLevel[0] == "Admin"){
        alert("Admin user logged in");
        this.isAdmin = true;
