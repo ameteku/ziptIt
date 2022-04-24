@@ -31,6 +31,7 @@ export class HomeComponent implements OnInit {
      this.httpOptions = {
       headers: new HttpHeaders({
         "Access-Control-Allow-Origin": "GET, POST, PUT, DELETE, OPTIONS",
+        "Access-Control-Allow-Credentials": "true"
       }),
       observe: 'response',
       withCredentials: true,
