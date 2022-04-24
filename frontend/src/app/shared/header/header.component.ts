@@ -32,11 +32,12 @@ export class HeaderComponent implements OnInit {
 
   constructor(private modalService: ModalService, private http: HttpClient, public appCom: AppComponent) {
     this.httpOptions = {
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-      },
+      headers: new HttpHeaders({
+        "Access-Control-Allow-Origin": "GET, POST, PUT, DELETE, OPTIONS",
+      }),
       observe: 'response',
-      withCredentials: true, 
+      withCredentials: true,
+      crossDomain: true 
     };
    }
 
@@ -69,13 +70,15 @@ closeModal(id: string) {
 }
 
 signIn(){
-  this.http.post<User>(this.loginURL, {"username": this.username, "password": this.password}).subscribe({
+  this.http.post<User>(this.loginURL, {"username": this.username, "password": this.password}, {...this.httpOptions}).subscribe({
     next:  data => {
+      //@ts-ignore ts wierdly says data is not available because I am passing in headers? remove comment to see error 
       if(data.accessLevel[0] == "Regular"){
         alert("Regular user logged in");
         this.getAuthStatusChange.emit(true);
         this.loggedIn = true;
      }
+      //@ts-ignore ts wierdly says data is not available because I am passing in headers? remove comment to see error 
      else if(data.accessLevel[0] == "Admin"){
        alert("Admin user logged in");
        this.getAuthStatusChange.emit(true);
