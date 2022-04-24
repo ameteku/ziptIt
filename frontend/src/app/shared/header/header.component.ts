@@ -33,7 +33,7 @@ export class HeaderComponent implements OnInit {
   constructor(private modalService: ModalService, private http: HttpClient, public appCom: AppComponent) {
     this.httpOptions = {
       headers: new HttpHeaders({
-        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",
         "Access-Control-Allow-Credentials": "true"
       }),
       observe: 'response',
