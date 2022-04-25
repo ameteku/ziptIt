@@ -140,7 +140,9 @@ export class TopicPageComponent implements OnInit {
     for(let i=0; i < param.length; i++){
       total += parseInt(param[i]);
     }
-    return total / param.length;
+    var avg = total/param.length;
+    var rounded = Math.round(avg * 10) / 10;
+    return rounded;
   }
 
   submitRating(linkID: any){
