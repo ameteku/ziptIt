@@ -32,6 +32,7 @@ export class TopicPageComponent implements OnInit {
   httpOptions;
   rating: string;
   links: [];
+  currentLinkId: string;
 
   constructor(private _Activatedroute:ActivatedRoute, private _router:Router, private http: HttpClient, private modalService: ModalService, public appCom: AppComponent) { 
     this.sub=this._Activatedroute.paramMap.subscribe(params => { 
@@ -145,13 +146,14 @@ export class TopicPageComponent implements OnInit {
     return rounded;
   }
 
-  submitRating(linkID: any){
+  submitRating(){
     var url = 'https://zipit-backend.herokuapp.com/add-rating';
     var body = {
       'rating' : (document.getElementById('rating') as HTMLInputElement).value,
       'username' : this.appCom.currentUser,
-      'linkId' : linkID
+      'linkId' : this.currentLinkId
     };
+    this.modalService.close('SubmitRating');
     console.log(body);
 
     this.http.post<any>(url, body).subscribe({
@@ -163,5 +165,10 @@ export class TopicPageComponent implements OnInit {
         alert('There was an error rating could not be submitted.');
       }
     });
+  }
+
+  openRating(id: string){
+    this.modalService.open('SubmitRating');
+    this.currentLinkId = id;
   }
 }

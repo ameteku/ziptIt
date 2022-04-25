@@ -35,7 +35,7 @@
                             {{calcRating(i.ratings.ratings)}}
                         </div>
                         <div *ngIf="appCom.loggedIn">
-                            <button class="button-21"(click)="openModal('SubmitRating');">Submit a Review</button>
+                            <button class="button-21"(click)="openRating(i.id)">Submit a Review</button>
                         </div>
                     </td>
                     
@@ -60,7 +60,7 @@
                              <option value="5">5</option>
                          </select> </p>
                          <button class="button-21"style="margin-right: 20px"(click)="closeModal('SubmitRating');">Close</button>
-                         <button class="button-21"style="margin-right: 20px" (click)='submitRating(i.id);'>Submit</button>
+                         <button class="button-21"style="margin-right: 20px" (click)='submitRating();'>Submit</button>
                      </div>
                  </jw-modal>
                 </tr>
