@@ -18,8 +18,8 @@
 						<button style="margin-right: 20px;" class="button-21" (click)="openModal('SignUp')">Sign up</button>
 						<button *ngIf="appCom.loggedIn" style="margin-right: 20px;"class="button-21" (click)="openModal('logout')">Logout</button>
 
-						<jw-modal style="display: flex; justify-content: center; align-content: center;" id="SignIn">
-							<div class = "modal-wrapper" style="text-align: center;">
+						<jw-modal id="SignIn">
+							<div style="text-align: center;">
 							<h1>Sign In</h1>
 							<p>Username: <input type="text" [(ngModel)]="username" placeholder="username" /></p>
 							<p>Password: <input id="pass" type="password" [(ngModel)]="password" placeholder="password"/></p>
