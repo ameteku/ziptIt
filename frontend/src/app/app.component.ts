@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { HeaderComponent } from './shared/header/header.component';
 
 @Component({
   selector: 'app-root',
@@ -12,16 +13,19 @@ export class AppComponent {
 
   private _isAuthSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   public isAuthObs: Observable<boolean> = this._isAuthSubject.asObservable();
-  private _currentUser: BehaviorSubject<string> = new BehaviorSubject<string>(null);
-  public _getCurrentUser: Observable<string> = this._currentUser.asObservable();
+
+  @ViewChild('headerUser', {static:false}) headerUser:
+  HeaderComponent;
+
+  receiveFromChild:string=null;
+
+  GetUser(newUser){
+    this.currentUser = newUser;
+  }
 
   title = 'Search-Module';
 
   authChanged(status: boolean){
     this.loggedIn = status;
-  }
-
-  currentUserChanged(user: string){
-    this.currentUser = user;
   }
 }

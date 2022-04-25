@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router} from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { TopicResult } from './TopicResult';
@@ -15,6 +15,7 @@ import { BrowserModule } from '@angular/platform-browser';
   styleUrls: ['./topic-page.component.scss']
 })
 export class TopicPageComponent implements OnInit {
+  
   url = 'https://zipit-backend.herokuapp.com/topic/all/';
   linkurl = 'https://zipit-backend.herokuapp.com/link/all/';
   postLink = 'https://zipit-backend.herokuapp.com/add/link/';
@@ -22,7 +23,7 @@ export class TopicPageComponent implements OnInit {
   classTitle: string;
   id: string;
   sub;
-  results: any;
+  results: TopicResult;
   topicTitle: string;
   topicDescription: string;
   linkTitle: string;
@@ -36,19 +37,19 @@ export class TopicPageComponent implements OnInit {
       console.log(params);
        this.id = params.get('id'); 
        this.classTitle = params.get('title');   
+       this.httpOptions = {
+        headers: new HttpHeaders({
+          "Access-Control-Allow-Origin": "GET, POST, PUT, DELETE, OPTIONS",
+        }),
+        observe: 'response',
+        };
    });
   }
 
   ngOnInit(): void {
-    this.httpOptions = {
-      headers: new HttpHeaders({
-        "Access-Control-Allow-Origin": "GET, POST, PUT, DELETE, OPTIONS",
-      }),
-      observe: 'response',
-      };
     this.links = null;
     var newUrl = this.url + this.id;
-    this.http.get<any>(newUrl, this.httpOptions).subscribe(data => {
+    this.http.get<any>(newUrl).subscribe(data => {
       this.results = data;
     });
   }

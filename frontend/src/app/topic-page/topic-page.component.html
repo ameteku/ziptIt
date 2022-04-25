@@ -1,6 +1,5 @@
 <div class="jumbotron mt-4" style="text-align:center">
     <h1 style="text-align:left">{{classTitle}} Topics</h1>
-    <button (click)="printUser()">Click me</button>
     <h2>
        <div *ngFor="let topic of results" style="display: inline-block; text-align: center;">
            <button class="button-21" style="margin: 50px;"(click)="getLinks(topic.id)">{{topic.title}}</button>

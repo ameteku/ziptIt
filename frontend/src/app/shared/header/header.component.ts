@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { ModalService } from 'src/app/_modal';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from './SignIn';
@@ -13,7 +13,6 @@ import { AppComponent } from 'src/app/app.component';
 export class HeaderComponent implements OnInit {
 
 @Output() public getAuthStatusChange = new EventEmitter<boolean>();
-@Output() public getCurrentUserChange = new EventEmitter<string>();
 
   httpOptions;
   username: string;
@@ -29,7 +28,9 @@ export class HeaderComponent implements OnInit {
   addClassUrl: string = 'https://zipit-backend.herokuapp.com/add/class';
   title:string;
   description: string;
-  user: string = null;
+  
+  @Input() currentUser;
+  @Output() OutputToParent = new EventEmitter<any>();
 
 
   constructor(private modalService: ModalService, private http: HttpClient, public appCom: AppComponent) {
@@ -74,17 +75,14 @@ signIn(){
     next: data => {
       if(data.accessLevel[0] == "Regular"){
         alert("Regular user logged in");
-        this.getAuthStatusChange.emit(true);
-        this.loggedIn = true;
-        this.user = this.username;
-        this.getCurrentUserChange.emit(this.username);
      }
      else if(data.accessLevel[0] == "Admin"){
        alert("Admin user logged in");
-       this.getAuthStatusChange.emit(true);
-       this.loggedIn = true;
        this.isAdmin = true;
      }
+     this.loggedIn = true;
+     this.getAuthStatusChange.emit(true);
+     this.OutputToParent.emit(this.username);
      this.closeModal("SignIn");
   }, 
   error: error => {
@@ -137,6 +135,7 @@ signUp(){
 
   logout(){
     this.getAuthStatusChange.emit(false);
+    this.OutputToParent.emit(null);
     this.closeModal("logout");
     this.loggedIn = false;
     this.isAdmin = false;
