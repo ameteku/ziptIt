@@ -30,12 +30,12 @@
                     <td>{{i.title}}</td>
                     <td>{{i.description}}</td>
                     <td><a href="{{i.actualLink}}" target="_blank">{{i.title}}</a></td>
-                    <td>
+                    <td id={{i.id}}>
                         <div>
                             {{calcRating(i.ratings.ratings)}}
                         </div>
                         <div *ngIf="appCom.loggedIn">
-                            <button class="button-21"(click)="openRating(i.id)">Submit a Review</button>
+                            <button class="button-21"(click)="openRating(i.id)">Submit a Rating</button>
                         </div>
                     </td>
                     

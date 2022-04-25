@@ -43,8 +43,9 @@ export class HeaderComponent implements OnInit {
    }
 
   ngOnInit(): void {
+    this.isAdmin = localStorage.getItem("isAdmin") == "true" ? true : false;
+    this.username = localStorage.getItem("username");
     this.appCom.isAuthObs.subscribe(loggedIn => this.loggedIn = loggedIn);
-    this.username = "";
     this.password = "";
     this.firstname = "";
     this.lastname ="";
@@ -79,8 +80,11 @@ signIn(){
      else if(data.accessLevel[0] == "Admin"){
        alert("Admin user logged in");
        this.isAdmin = true;
+       localStorage.setItem("isAdmin", "true");
      }
      this.loggedIn = true;
+     localStorage.setItem("loggedIn", "true");
+     localStorage.setItem("username", this.username);
      this.getAuthStatusChange.emit(true);
      this.OutputToParent.emit(this.username);
      this.closeModal("SignIn");
@@ -139,6 +143,7 @@ signUp(){
     this.closeModal("logout");
     this.loggedIn = false;
     this.isAdmin = false;
+    localStorage.clear();
     alert("User has been logged out");
   }
 

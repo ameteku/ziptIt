@@ -1,8 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router} from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { TopicResult } from './TopicResult';
-import { ModalService } from '../_modal';
+import { ModalService } from '../_modal'; 
 import { AppComponent } from '../app.component';
 import * as internal from 'events';
 import { NumberValueAccessor } from '@angular/forms';
@@ -33,8 +33,12 @@ export class TopicPageComponent implements OnInit {
   rating: string;
   links: [];
   currentLinkId: string;
+  newUrl: string;
+  newResults: TopicResult;
+  topics = ['test'];
 
-  constructor(private _Activatedroute:ActivatedRoute, private _router:Router, private http: HttpClient, private modalService: ModalService, public appCom: AppComponent) { 
+  constructor(private _Activatedroute:ActivatedRoute, private _router:Router, private http: HttpClient, private modalService: ModalService, public appCom: AppComponent
+    , private cd: ChangeDetectorRef){ 
     this.sub=this._Activatedroute.paramMap.subscribe(params => { 
       console.log(params);
        this.id = params.get('id'); 
@@ -50,8 +54,8 @@ export class TopicPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.links = null;
-    var newUrl = this.url + this.id;
-    this.http.get<any>(newUrl).subscribe(data => {
+    this.newUrl = this.url + this.id;
+    this.http.get<any>(this.newUrl).subscribe(data => {
       this.results = data;
     });
   }
@@ -71,13 +75,13 @@ export class TopicPageComponent implements OnInit {
     var URL = 'https://zipit-backend.herokuapp.com/add/topic';
     var body = {
       "title": this.topicTitle,
-      "description": this.topicDescription,
-      "class_id": classID
+      "description" : this.topicDescription,
+      "classId": classID
     };
+    console.log(body);
     this.closeModal('AddTopic');
     this.http.post<any>(URL, body).subscribe({
       next: data => {
-        alert("Topic added!");
         this.topicTitle="";
         this.topicDescription="";
       },
@@ -85,9 +89,9 @@ export class TopicPageComponent implements OnInit {
         console.error('There was an error!', error);
         alert('There was an error Topic could not be added');
       }
-      
     });
-  }
+    window.location.reload();
+}
 
   closeModal(id: string){
     this.modalService.close(id);
@@ -130,7 +134,7 @@ export class TopicPageComponent implements OnInit {
         alert('There was an error Link could not be added');
       }
     });
-    this.redirectTo(this._router.url);
+    window.location.reload();
   }
 
   calcRating(param: any): any{
@@ -165,12 +169,17 @@ export class TopicPageComponent implements OnInit {
         alert('There was an error rating could not be submitted.');
       }
     });
-    this.redirectTo(this._router.url);
+    window.location.reload();
   }
 
   openRating(id: string){
     this.modalService.open('SubmitRating');
     this.currentLinkId = id;
+  }
+
+  updateResults(results: any){
+    this.results = results;
+    this.cd.detectChanges();
   }
 
   redirectTo(uri:string){

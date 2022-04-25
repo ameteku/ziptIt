@@ -8,7 +8,7 @@ import { HeaderComponent } from './shared/header/header.component';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  public loggedIn: boolean = false;
+  public loggedIn: boolean = localStorage.getItem("loggedIn") == "true" ? true : false;
   public currentUser: string = null;
 
   private _isAuthSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
@@ -26,6 +26,9 @@ export class AppComponent {
   title = 'Search-Module';
 
   authChanged(status: boolean){
+    if (status) {
+      localStorage.setItem("loggedIn", "true");
+    }
     this.loggedIn = status;
   }
 }

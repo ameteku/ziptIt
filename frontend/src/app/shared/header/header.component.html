@@ -16,7 +16,7 @@
 						<button *ngIf="isAdmin" style="margin-right: 20px;"class="button-21" (click)="openModal('AddClass')">Add Class</button>
 						<button style="margin-right: 20px;"class="button-21" (click)="openModal('SignIn')">Sign in</button>
 						<button style="margin-right: 20px;" class="button-21" (click)="openModal('SignUp')">Sign up</button>
-						<button *ngIf="loggedIn" style="margin-right: 20px;"class="button-21" (click)="openModal('logout')">Logout</button>
+						<button *ngIf="appCom.loggedIn" style="margin-right: 20px;"class="button-21" (click)="openModal('logout')">Logout</button>
 
 						<jw-modal id="SignIn">
 							<div style="text-align: center;">
