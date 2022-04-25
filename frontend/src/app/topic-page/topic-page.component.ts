@@ -129,8 +129,8 @@ export class TopicPageComponent implements OnInit {
         console.error('There was an error!', error);
         alert('There was an error Link could not be added');
       }
-      
     });
+    this.redirectTo(this._router.url);
   }
 
   calcRating(param: any): any{
@@ -146,7 +146,7 @@ export class TopicPageComponent implements OnInit {
     return rounded;
   }
 
-  submitRating(){
+  submitRating(tid: string){
     var url = 'https://zipit-backend.herokuapp.com/add-rating';
     var body = {
       'rating' : (document.getElementById('rating') as HTMLInputElement).value,
@@ -161,14 +161,20 @@ export class TopicPageComponent implements OnInit {
         alert("Rating Submitted!");
       },
       error: error => {
-        console.error('There was an errorr!', error);
+        console.log('There was an errorr!', error);
         alert('There was an error rating could not be submitted.');
       }
     });
+    this.redirectTo(this._router.url);
   }
 
   openRating(id: string){
     this.modalService.open('SubmitRating');
     this.currentLinkId = id;
   }
+
+  redirectTo(uri:string){
+    this._router.navigateByUrl('/', {skipLocationChange: true}).then(()=>
+    this._router.navigate([uri]));
+ }
 }
