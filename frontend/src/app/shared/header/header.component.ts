@@ -13,6 +13,7 @@ import { AppComponent } from 'src/app/app.component';
 export class HeaderComponent implements OnInit {
 
 @Output() public getAuthStatusChange = new EventEmitter<boolean>();
+@Output() public getCurrentUserChange = new EventEmitter<string>();
 
   httpOptions;
   username: string;
@@ -28,6 +29,7 @@ export class HeaderComponent implements OnInit {
   addClassUrl: string = 'https://zipit-backend.herokuapp.com/add/class';
   title:string;
   description: string;
+  user: string = null;
 
 
   constructor(private modalService: ModalService, private http: HttpClient, public appCom: AppComponent) {
@@ -74,6 +76,8 @@ signIn(){
         alert("Regular user logged in");
         this.getAuthStatusChange.emit(true);
         this.loggedIn = true;
+        this.user = this.username;
+        this.getCurrentUserChange.emit(this.username);
      }
      else if(data.accessLevel[0] == "Admin"){
        alert("Admin user logged in");
@@ -86,6 +90,9 @@ signIn(){
   error: error => {
     console.error('There was an error!', error);
     alert("Invalid username or password");
+    this.username = "";
+    this.password = "";
+    this.closeModal('SignIn');
 }
   });
 }

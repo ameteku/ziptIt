@@ -22,7 +22,7 @@ export class TopicPageComponent implements OnInit {
   classTitle: string;
   id: string;
   sub;
-  results: TopicResult;
+  results: any;
   topicTitle: string;
   topicDescription: string;
   linkTitle: string;
@@ -37,18 +37,18 @@ export class TopicPageComponent implements OnInit {
        this.id = params.get('id'); 
        this.classTitle = params.get('title');   
    });
-   this.httpOptions = {
-    headers: new HttpHeaders({
-      "Access-Control-Allow-Origin": "GET, POST, PUT, DELETE, OPTIONS",
-    }),
-    observe: 'response',
-    };
   }
 
   ngOnInit(): void {
+    this.httpOptions = {
+      headers: new HttpHeaders({
+        "Access-Control-Allow-Origin": "GET, POST, PUT, DELETE, OPTIONS",
+      }),
+      observe: 'response',
+      };
     this.links = null;
     var newUrl = this.url + this.id;
-    this.http.get<any>(newUrl).subscribe(data => {
+    this.http.get<any>(newUrl, this.httpOptions).subscribe(data => {
       this.results = data;
     });
   }
@@ -137,5 +137,12 @@ export class TopicPageComponent implements OnInit {
       total += parseInt(param[i]);
     }
     return total / param.length;
+  }
+
+  clickme(){
+    alert("Clicked");
+  }
+  printUser(){
+    alert(this.appCom.currentUser);
   }
 }

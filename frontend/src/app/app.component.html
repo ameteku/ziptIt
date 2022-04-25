@@ -1,4 +1,4 @@
-<app-header (getAuthStatusChange)="authChanged($event)"></app-header>
+<app-header (getAuthStatusChange)="authChanged($event)" (getCurrentUserChange)="currentUserChanged($event)"></app-header>
 <div class="container">
 	<router-outlet></router-outlet>
 </div>
