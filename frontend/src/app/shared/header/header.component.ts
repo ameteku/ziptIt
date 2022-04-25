@@ -143,7 +143,11 @@ signUp(){
   }
 
   addClass(){
-    this.http.post<User>(this.addClassUrl, {"title": this.title, "description": this.description}).subscribe({
+    this.http.post(this.addClassUrl, {"title": this.title, "description": this.description}, {
+      headers: {
+        ""
+      }
+    }).subscribe({
       next: data => {
         alert("Class added!");
         this.title="";
