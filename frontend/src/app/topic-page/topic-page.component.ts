@@ -15,7 +15,7 @@ import { BrowserModule } from '@angular/platform-browser';
   styleUrls: ['./topic-page.component.scss']
 })
 export class TopicPageComponent implements OnInit {
-  
+
   url = 'https://zipit-backend.herokuapp.com/topic/all/';
   linkurl = 'https://zipit-backend.herokuapp.com/link/all/';
   postLink = 'https://zipit-backend.herokuapp.com/add/link/';
@@ -30,6 +30,7 @@ export class TopicPageComponent implements OnInit {
   linkDescription: string;
   actualLink: string;
   httpOptions;
+  rating: string;
   links: [];
 
   constructor(private _Activatedroute:ActivatedRoute, private _router:Router, private http: HttpClient, private modalService: ModalService, public appCom: AppComponent) { 
@@ -94,6 +95,7 @@ export class TopicPageComponent implements OnInit {
     this.linkTitle = "";
     this.actualLink = "";
     this.linkDescription = "";
+    this.rating = '';
   }
 
   openModal(id: string){
@@ -103,6 +105,7 @@ export class TopicPageComponent implements OnInit {
     this.linkDescription = "";
     this.linkTitle = "";
     this.actualLink = "";
+    this.rating = "";
   }
 
   addLink(classId: string, topicId: string){
@@ -140,10 +143,23 @@ export class TopicPageComponent implements OnInit {
     return total / param.length;
   }
 
-  clickme(){
-    alert("Clicked");
-  }
-  printUser(){
-    alert(this.appCom.currentUser);
+  submitRating(linkID: any){
+    var url = 'https://zipit-backend.herokuapp.com/add-rating';
+    var body = {
+      'rating' : (document.getElementById('rating') as HTMLInputElement).value,
+      'username' : this.appCom.currentUser,
+      'linkId' : linkID
+    };
+    console.log(body);
+
+    this.http.post<any>(url, body).subscribe({
+      next: data =>{
+        alert("Rating Submitted!");
+      },
+      error: error => {
+        console.error('There was an errorr!', error);
+        alert('There was an error rating could not be submitted.');
+      }
+    });
   }
 }
