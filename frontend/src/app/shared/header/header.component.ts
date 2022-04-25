@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { ModalService } from 'src/app/_modal';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { User } from './SignIn';
 import { emit } from 'process';
 import { AppComponent } from 'src/app/app.component';
@@ -71,16 +71,15 @@ closeModal(id: string) {
 }
 
 signIn(){
-  this.http.post<User>(this.loginURL, {"username": this.username, "password": this.password}, {...this.httpOptions}).subscribe({
-    next:  data => {
-      //@ts-ignore ts wierdly says data is not available because I am passing in headers? remove comment to see error 
-      if(data.accessLevel[0] == "Regular"){
+  this.http.post<User>(this.loginURL, {"username": this.username, "password": this.password}, this.httpOptions).subscribe({
+    
+    next:  (data: HttpResponse<User> )=> {
+        if(data.body.accessLevel[0] == "Regular"){
         alert("Regular user logged in");
         this.getAuthStatusChange.emit(true);
         this.loggedIn = true;
      }
-      //@ts-ignore ts wierdly says data is not available because I am passing in headers? remove comment to see error 
-     else if(data.accessLevel[0] == "Admin"){
+     else if(data.body.accessLevel[0] == "Admin"){
        alert("Admin user logged in");
        this.getAuthStatusChange.emit(true);
        this.loggedIn = true;
