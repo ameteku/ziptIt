@@ -128,13 +128,13 @@ export class TopicPageComponent implements OnInit {
         this.linkTitle="";
         this.linkDescription="";
         this.actualLink="";
+        window.location.reload();
       },
       error: error => {
         console.error('There was an error!', error);
         alert('There was an error Link could not be added');
       }
     });
-    window.location.reload();
   }
 
   calcRating(param: any): any{
@@ -163,13 +163,13 @@ export class TopicPageComponent implements OnInit {
     this.http.post<any>(url, body).subscribe({
       next: data =>{
         alert("Rating Submitted!");
+        window.location.reload();
       },
       error: error => {
         console.log('There was an errorr!', error);
         alert('There was an error rating could not be submitted.');
       }
     });
-    window.location.reload();
   }
 
   openRating(id: string){
