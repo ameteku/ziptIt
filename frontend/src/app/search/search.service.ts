@@ -11,7 +11,7 @@ import { stringify } from 'querystring';
   providedIn: 'root',
 })
 export class SearchService {
-  private SERVER_URL = 'http://zipit-backend.herokuapp.com/';
+  private SERVER_URL = 'https://zipit-backend.herokuapp.com/';
 
   constructor(private http: HttpClient) {}
 
