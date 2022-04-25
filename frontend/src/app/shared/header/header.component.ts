@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { ModalService } from 'src/app/_modal';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { User } from './SignIn';
@@ -28,6 +28,9 @@ export class HeaderComponent implements OnInit {
   addClassUrl: string = 'https://zipit-backend.herokuapp.com/add/class';
   title:string;
   description: string;
+  
+  @Input() currentUser;
+  @Output() OutputToParent = new EventEmitter<any>();
 
 
   constructor(private modalService: ModalService, private http: HttpClient, public appCom: AppComponent) {
@@ -43,8 +46,9 @@ export class HeaderComponent implements OnInit {
    }
 
   ngOnInit(): void {
+    this.isAdmin = localStorage.getItem("isAdmin") == "true" ? true : false;
+    this.username = localStorage.getItem("username");
     this.appCom.isAuthObs.subscribe(loggedIn => this.loggedIn = loggedIn);
-    this.username = "";
     this.password = "";
     this.firstname = "";
     this.lastname ="";
@@ -76,20 +80,25 @@ signIn(){
     next:  (data: HttpResponse<User> )=> {
         if(data.body.accessLevel[0] == "Regular"){
         alert("Regular user logged in");
-        this.getAuthStatusChange.emit(true);
-        this.loggedIn = true;
      }
      else if(data.body.accessLevel[0] == "Admin"){
        alert("Admin user logged in");
-       this.getAuthStatusChange.emit(true);
-       this.loggedIn = true;
        this.isAdmin = true;
+       localStorage.setItem("isAdmin", "true");
      }
+     this.loggedIn = true;
+     localStorage.setItem("loggedIn", "true");
+     localStorage.setItem("username", this.username);
+     this.getAuthStatusChange.emit(true);
+     this.OutputToParent.emit(this.username);
      this.closeModal("SignIn");
   }, 
   error: error => {
     console.error('There was an error!', error);
     alert("Invalid username or password");
+    this.username = "";
+    this.password = "";
+    this.closeModal('SignIn');
 }
   });
 }
@@ -136,9 +145,11 @@ signUp(){
 
   logout(){
     this.getAuthStatusChange.emit(false);
+    this.OutputToParent.emit(null);
     this.closeModal("logout");
     this.loggedIn = false;
     this.isAdmin = false;
+    localStorage.clear();
     alert("User has been logged out");
   }
 

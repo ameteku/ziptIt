@@ -30,7 +30,14 @@
                     <td>{{i.title}}</td>
                     <td>{{i.description}}</td>
                     <td><a href="{{i.actualLink}}" target="_blank">{{i.title}}</a></td>
-                    <td>{{calcRating(i.ratings.ratings)}}</td>
+                    <td id={{i.id}}>
+                        <div>
+                            {{calcRating(i.ratings.ratings)}}
+                        </div>
+                        <div *ngIf="appCom.loggedIn">
+                            <button class="button-21"(click)="openRating(i.id)">Submit a Rating</button>
+                        </div>
+                    </td>
                     
                     <jw-modal id="AddLink">
                         <div style="text-align:center">
@@ -42,6 +49,20 @@
                             <button class="button-21"style="margin-right: 20px" (click)="addLink(i.classId, i.topicId)">Add Link</button>
                         </div>
                     </jw-modal>
+                    <jw-modal id="SubmitRating">
+                        <div style="text-align:center">
+                         <h1>Add Topic</h1>
+                         <p>Rating: <select name="rating" id="rating">
+                             <option value="1">1</option>
+                             <option value="2">2</option>
+                             <option value="3">3</option>
+                             <option value="4">4</option>
+                             <option value="5">5</option>
+                         </select> </p>
+                         <button class="button-21"style="margin-right: 20px"(click)="closeModal('SubmitRating');">Close</button>
+                         <button class="button-21"style="margin-right: 20px" (click)='submitRating(i.topicId);'>Submit</button>
+                     </div>
+                 </jw-modal>
                 </tr>
                 <tr *ngIf="appCom.loggedIn" >
                     <td> <button style="margin-right: 20px" class="button-21"style (click)="openModal('AddLink')">Add Link</button></td>

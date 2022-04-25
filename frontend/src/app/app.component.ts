@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { HeaderComponent } from './shared/header/header.component';
 
 @Component({
   selector: 'app-root',
@@ -7,14 +8,27 @@ import { BehaviorSubject, Observable } from 'rxjs';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  public loggedIn: boolean = false;
+  public loggedIn: boolean = localStorage.getItem("loggedIn") == "true" ? true : false;
+  public currentUser: string = null;
 
   private _isAuthSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   public isAuthObs: Observable<boolean> = this._isAuthSubject.asObservable();
 
+  @ViewChild('headerUser', {static:false}) headerUser:
+  HeaderComponent;
+
+  receiveFromChild:string=null;
+
+  GetUser(newUser){
+    this.currentUser = newUser;
+  }
+
   title = 'Search-Module';
 
   authChanged(status: boolean){
+    if (status) {
+      localStorage.setItem("loggedIn", "true");
+    }
     this.loggedIn = status;
   }
 }
