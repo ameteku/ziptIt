@@ -73,22 +73,21 @@ export class TopicPageComponent implements OnInit {
     });
   }
 
-  addTopic(classID: string){
+  addTopic(classID?: string){
     var URL = 'https://zipit-backend.herokuapp.com/add/topic';
     var body = {
       "title": this.topicTitle,
       "description" : this.topicDescription,
-      "classId": classID
+      "classId": classID ?? this.id
     };
-    console.log(body, "<<<<body");
     this.closeModal('AddTopic');
     this.http.post<any>(URL, body).subscribe({
       next: data => {
-        console.log(data, "<<<<data");
         this.topicTitle="";
         this.topicDescription="";
-
-        window.location.reload();
+        this.http.get<any>(this.newUrl).subscribe(data => {
+          this.results = data;
+        });
       },
       error: error => {
         console.error('There was an error!', error);
@@ -173,13 +172,15 @@ export class TopicPageComponent implements OnInit {
     this.http.post<any>(url, body).subscribe({
       next: data =>{
         alert("Rating Submitted!");
+        this.getLinks(tid);
+
       },
       error: error => {
         console.log('There was an errorr!', error);
         alert('There was an error rating could not be submitted.');
       }
     });
-    window.location.reload();
+    // window.location.reload();
   }
 
   openRating(id: string){

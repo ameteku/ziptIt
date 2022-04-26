@@ -1,6 +1,15 @@
 <div class="jumbotron mt-4" style="text-align:center;  position: relative;">
     <h1 style="text-align: center">{{classTitle}} Topics</h1>
     <h2>
+        <jw-modal id="AddTopic">
+            <div style="text-align:center">
+             <h1>Add Topic</h1>
+             <p>Title: <input type="text" [(ngModel)]="topicTitle" placeholder="title"/></p>
+             <p>Description: <input type="text" [(ngModel)]="topicDescription" placeholder="description" /></p>
+             <button class="button-21"style="margin-right: 20px"(click)="closeModal('AddTopic');">Close</button>
+             <button class="button-21"style="margin-right: 20px" (click)="addTopic()">Add Topic</button>
+         </div>
+     </jw-modal>
        <div *ngFor="let topic of results" style="display: inline-block; text-align: center; ">
            <button style="margin: 10px 50px 50px 5px; background-color: transparent; border: 2px solid  black; border-radius: 50px; font-size: 20px;" (click)="getLinks(topic.id)">{{topic.title}}</button>
            <jw-modal id="AddLink">
@@ -11,15 +20,6 @@
                 <p>Link: <input type="text" [(ngModel)]="actualLink" placeholder="link" /></p>
                 <button class="button-21"style="margin-right: 20px"(click)="closeModal('AddLink');">Close</button>
                 <button class="button-21"style="margin-right: 20px" (click)="addLink(topic.classId)">Add Link</button>
-            </div>
-        </jw-modal>
-           <jw-modal id="AddTopic">
-               <div style="text-align:center">
-                <h1>Add Topic</h1>
-                <p>Title: <input type="text" [(ngModel)]="topicTitle" placeholder="title"/></p>
-                <p>Description: <input type="text" [(ngModel)]="topicDescription" placeholder="description" /></p>
-                <button class="button-21"style="margin-right: 20px"(click)="closeModal('AddTopic');">Close</button>
-                <button class="button-21"style="margin-right: 20px" (click)="addTopic(topic.classId)">Add Topic</button>
             </div>
         </jw-modal>
        </div>

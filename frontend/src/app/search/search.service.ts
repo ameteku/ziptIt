@@ -55,7 +55,7 @@ export class SearchService {
       ...headers
     });
     console.log(result);
-    return result.pipe(map(result => result.filter(resultItem => resultItem.title.length > q.length ? (resultItem.title.indexOf(q) != -1) : (q.indexOf(resultItem.title) != -1))));
+    return result.pipe(map(result => result.filter(resultItem => resultItem.title.length > q.length ? (resultItem.title.toLowerCase().indexOf(q.toLowerCase()) != -1) : (q.toLowerCase().indexOf(resultItem.title.toLowerCase()) != -1))));
   }
 
   updateSelectedOption(option: ClassSearch) {
