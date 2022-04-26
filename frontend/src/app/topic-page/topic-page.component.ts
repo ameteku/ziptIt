@@ -35,6 +35,7 @@ export class TopicPageComponent implements OnInit {
   currentLinkId: string;
   newUrl: string;
   newResults: TopicResult;
+  currentSelectedTopicId;
   topics = ['test'];
 
   constructor(private _Activatedroute:ActivatedRoute, private _router:Router, private http: HttpClient, private modalService: ModalService, public appCom: AppComponent
@@ -65,8 +66,9 @@ export class TopicPageComponent implements OnInit {
   }
 
   getLinks(topicId: string){
+    this.currentSelectedTopicId = topicId;
     this.http.get<any>(this.linkurl + topicId).subscribe(data => {
-      this.links = data;
+      this.links = data ?? [];
       console.log(data);
     });
   }
@@ -78,19 +80,22 @@ export class TopicPageComponent implements OnInit {
       "description" : this.topicDescription,
       "classId": classID
     };
-    console.log(body);
+    console.log(body, "<<<<body");
     this.closeModal('AddTopic');
     this.http.post<any>(URL, body).subscribe({
       next: data => {
+        console.log(data, "<<<<data");
         this.topicTitle="";
         this.topicDescription="";
+
+        window.location.reload();
       },
       error: error => {
         console.error('There was an error!', error);
         alert('There was an error Topic could not be added');
       }
     });
-    window.location.reload();
+   
 }
 
   closeModal(id: string){
@@ -114,10 +119,11 @@ export class TopicPageComponent implements OnInit {
     this.rating = "";
   }
 
-  addLink(classId: string, topicId: string){
+  addLink(classId: string, topicId?: string){
+
     var body = {
       "classId": classId,
-      "topicId": topicId,
+      "topicId": topicId ?? this.currentSelectedTopicId,
       "link": this.actualLink,
       "title": this.linkTitle,
       "description": this.linkDescription
@@ -129,13 +135,16 @@ export class TopicPageComponent implements OnInit {
         this.linkTitle="";
         this.linkDescription="";
         this.actualLink="";
+        this.getLinks(this.currentSelectedTopicId);
+        this.closeModal("AddLink")
       },
       error: error => {
         console.error('There was an error!', error);
         alert('There was an error Link could not be added');
       }
     });
-    window.location.reload();
+    
+   
   }
 
   calcRating(param: any): any{
