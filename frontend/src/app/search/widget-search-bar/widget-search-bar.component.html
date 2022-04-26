@@ -1,7 +1,7 @@
-<div class="search-box">
+<div class="search-box" >
 	<form #f="ngForm" (ngSubmit)="onSubmit(f)">
 
-		<input type="search" name="search" ngModel class="form-control form-control-lg" type="text" placeholder="Search"
+		<input type="search" name="search" ngModel class="form-control form-control-lg" type="text" placeholder="Eg. Computer Science 1"
 			   (keyup)="term$.next($event.target.value)" autocomplete="on" (blur)="onblur()">
 	</form>
 

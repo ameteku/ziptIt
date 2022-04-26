@@ -76,7 +76,6 @@ closeModal(id: string) {
 
 signIn(){
   this.http.post<User>(this.loginURL, {"username": this.username, "password": this.password}, this.httpOptions).subscribe({
-    
     next:  (data: HttpResponse<User> )=> {
         if(data.body.accessLevel[0] == "Regular"){
         alert("Regular user logged in");
@@ -154,11 +153,7 @@ signUp(){
   }
 
   addClass(){
-    this.http.post(this.addClassUrl, {"title": this.title, "description": this.description}, {
-      headers: {
-        ""
-      }
-    }).subscribe({
+    this.http.post(this.addClassUrl, {"title": this.title, "description": this.description}).subscribe({
       next: data => {
         alert("Class added!");
         this.title="";

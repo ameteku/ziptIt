@@ -20,10 +20,10 @@
 
 						<jw-modal id="SignIn">
 							<div style="text-align: center;">
-							<h1>Sign In</h1>
+							<h1 style="margin-bottom: 20px;"> Sign In</h1>
 							<p>Username: <input type="text" [(ngModel)]="username" placeholder="username" /></p>
 							<p>Password: <input id="pass" type="password" [(ngModel)]="password" placeholder="password"/></p>
-							<button class="button-21"style="margin-right: 20px" (click)="closeModal('SignIn');">Close</button>
+							<button  style="position: absolute; top: 0; right: 0; background-color: white; border: none" (click)="closeModal('SignIn');">X</button>
 							<button class="button-21"(click)="signIn();">Sign In</button>
 							</div>
 						</jw-modal>
@@ -37,7 +37,7 @@
 							<p>Email: <input type="text" [(ngModel)]="email" placeholder="Email"/></p>
 							<p>Password: <input type="password" [(ngModel)]="password" placeholder="password"/></p>
 							<p>Confirm Password: <input type="password" [(ngModel)]="confirmPassword" placeholder="confirm password" /></p>
-							<button class="button-21"style="margin-right: 20px" (click)="closeModal('SignUp');">Close</button>
+							<button  style="position: absolute; top: 0; right: 0; background-color: white; border: none" (click)="closeModal('SignUp');">X</button>
 							<button class="button-21"(click)="signUp();">Sign Up</button>
 							</div>
 						</jw-modal>
@@ -49,16 +49,18 @@
 							<p>
 								<div style="display:inline-block">
 									<button style="margin-right: 20px" class="button-21" (click)="logout()">Yes</button>
-									<button class="button-21" (click)="closeModal('logout')">Cancel</button>
+									<button  style="position: absolute; top: 0; right: 0; background-color: white; border: none" (click)="closeModal('logout');">X</button>
 								</div>
 							</div>
 						</jw-modal>
 						<jw-modal id="AddClass">
-							<h1>Add Class</h1>
-							<p>Class: <input type="text" [(ngModel)]="title" placeholder="Enter a title" /></p>
-							<p>Description: <input type="text" [(ngModel)]="description" placeholder="Enter description" /></p>
-							<button class="button-21" style="margin-right: 20px" (click)="closeModal('AddClass');">Close</button>
-							<button class="button-21" (click)="addClass()">Add Class</button>
+							<div style="display: flex; flex-direction: column; align-items: center;">
+								<h1>Add Class</h1>
+								<p>Class: <input type="text" [(ngModel)]="title" placeholder="Enter a title" /></p>
+								<p>Description: <input type="text" [(ngModel)]="description" placeholder="Enter description" /></p>
+								<button  style="position: absolute; top: 0; right: 0; background-color: white; border: none" (click)="closeModal('AddClass');">X</button>
+								<button class="button-21" (click)="addClass()">Add Class</button>
+							</div>
 						</jw-modal>
 					</div>
 				</nav>

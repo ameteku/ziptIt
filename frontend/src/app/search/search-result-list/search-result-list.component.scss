@@ -1,3 +1,34 @@
 .selected-image {
   width: 200px;
 }
+
+h3 {
+  color: white;
+  font-weight: 900;
+  text-align: center;
+  font-size: 6vw;
+}
+
+.result-card {
+  margin: 10px;
+  cursor:pointer;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+}
+
+.result-card:hover {
+  box-shadow: 2px 2px 2px rgb(146, 144, 144);
+  background-color: rgb(87, 85, 85);
+  color: white;
+  .separator {
+    background-color: white;
+  }
+}
+
+.separator {
+  height: 5px;
+  background-color: black;
+
+}

@@ -41,3 +41,14 @@
   .button-21:focus:not(:active) {
     box-shadow: rgba(40, 170, 255, 0.25) 0 0 0 .125em;
   }
+
+  .background {
+    margin-top: 25vh;
+    height: 50vh;
+  }
+
+  .background  h1 {
+    color: white;
+    font-weight: 900;
+
+  }

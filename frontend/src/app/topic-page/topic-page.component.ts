@@ -104,6 +104,7 @@ export class TopicPageComponent implements OnInit {
   }
 
   openModal(id: string){
+    console.log("error here");
     this.modalService.open(id);
     this.topicTitle = "";
     this.topicDescription = "";

@@ -1,26 +1,22 @@
 <ng-template [ngIf]="searchService.isOptionsEmpty$ | async" [ngIfElse]="show">
-	<p>
-		No Search List Available
-	</p>
+	<h3>
+		No Matching Class
+	</h3>
 </ng-template>
 
 <ng-template #show>
 	<div class="mt-4 mb-4" *ngIf="searchService.options$ | async as selectedOptions">
 		<header *ngIf="selectedOptions.length > 0">
-			<h3>Search Result list</h3>
+			<h3>Search Result</h3>
 		</header>
-		<div class="card" *ngFor="let item of selectedOptions">
-			<div class="row" *ngIf="selectedOptions.length > 0">
-				<div>
-					<div class="col-9 p-4">
+		<div class="card result-card" *ngFor="let item of selectedOptions">
+			<div class="row" *ngIf="selectedOptions.length > 0" [routerLink]="['/topics',item.id, item.title]">
+					<div class="col-11 p-4">
 						<h5>{{item.title}}</h5>
-						<p> Description: {{item.description}}</p>
-						<p>
-							<a [routerLink]="['/topics',item.id, item.title]">Class Topics</a>
-						</p>
+						<div class="separator">
+						</div>
+						<p class="description"> {{item.description}}</p>
 					</div>
-				</div>
-
 			</div>
 		</div>
 	</div>
